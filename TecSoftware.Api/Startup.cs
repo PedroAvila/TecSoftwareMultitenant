@@ -1,20 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using System;
+using TecSoftware.Core;
+using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Api
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,7 +25,31 @@ namespace TecSoftware.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+
+            //services.AddDbContext<CatalogoInquilinoContext>(options =>
+            //{
+            //    options.UseSqlServer(Configuration.GetConnectionString("CatalogoInquilino"));
+            //});
+
+            services.AddSingleton(new Startup(Configuration));
+
+            var connectionString = Configuration.GetConnectionString("CatalogoInquilino");
+            services.AddDbContext<CatalogoInquilinoContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
+
+            services.AddTransient<ISdServidor, SdServidor>();
+            services.AddTransient<ISdBaseDato, SdBaseDato>();
+            services.AddTransient<ISdInquilino, SdInquilino>();
+            services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+
+            services.AddMultitenancy<Inquilino, CachingTenantResolver>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,10 +66,14 @@ namespace TecSoftware.Api
 
             app.UseAuthorization();
 
+            app.UseMultitenancy<Inquilino>();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+
         }
     }
 }

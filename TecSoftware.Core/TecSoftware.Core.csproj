@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
+    <ProjectReference Include="..\TecSoftware.EntidadesDominio\TecSoftware.EntidadesDominio.csproj" />
+    <ProjectReference Include="..\TecSoftware.Infrastructure\TecSoftware.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
