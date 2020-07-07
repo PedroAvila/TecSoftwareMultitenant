@@ -1,13 +1,16 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Text;
 using TecSoftware.Core;
-using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Api
@@ -25,18 +28,14 @@ namespace TecSoftware.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
 
-            //services.AddDbContext<CatalogoInquilinoContext>(options =>
-            //{
-            //    options.UseSqlServer(Configuration.GetConnectionString("CatalogoInquilino"));
-            //});
 
-            services.AddSingleton(new Startup(Configuration));
 
             var connectionString = Configuration.GetConnectionString("CatalogoInquilino");
             services.AddDbContext<CatalogoInquilinoContext>(options =>
@@ -44,12 +43,35 @@ namespace TecSoftware.Api
                 options.UseSqlServer(connectionString);
             });
 
+
             services.AddTransient<ISdServidor, SdServidor>();
             services.AddTransient<ISdBaseDato, SdBaseDato>();
             services.AddTransient<ISdInquilino, SdInquilino>();
+            services.AddTransient<ISdPrueba, SdPrueba>();
+            services.AddTransient<IService, Service>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
-            services.AddMultitenancy<Inquilino, CachingTenantResolver>();
+            services.AddHttpContextAccessor();
+            services.AddSingleton(new Startup(Configuration));
+            services.AddScoped<ITenantProvider, ServiceContextTenantProvider>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Authentication:Issuer"],
+                    ValidAudience = Configuration["Authentication:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:SecretKey"]))
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,16 +86,13 @@ namespace TecSoftware.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseMultitenancy<Inquilino>();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
-
         }
     }
 }

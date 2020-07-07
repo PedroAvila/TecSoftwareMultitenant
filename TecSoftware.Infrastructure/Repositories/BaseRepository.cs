@@ -32,8 +32,8 @@ namespace TecSoftware.Infrastructure
 
             using (var context = new CatalogoInquilinoContext())
             {
-                DbSet<T> query = context.Set<T>();
-                includelist.ForEach(x => query = (DbSet<T>)query.Include(x));
+                IQueryable<T> query = context.Set<T>();
+                includelist.ForEach(x => query = query.Include(x));
                 return (IEnumerable<T>)query.ToList();
             }
         }
@@ -61,9 +61,9 @@ namespace TecSoftware.Infrastructure
 
             using (var context = new CatalogoInquilinoContext())
             {
-                DbSet<T> query = context.Set<T>();
+                IQueryable<T> query = context.Set<T>();
 
-                includelist.ForEach(x => query = (DbSet<T>)query.Include(x));
+                includelist.ForEach(x => query = query.Include(x));
 
                 return (IEnumerable<T>)query.Where(predicate).ToList();
             }
@@ -92,8 +92,8 @@ namespace TecSoftware.Infrastructure
 
             using (var context = new CatalogoInquilinoContext())
             {
-                DbSet<T> query = context.Set<T>();
-                includelist.ForEach(x => query = (DbSet<T>)query.Include(x));
+                IQueryable<T> query = context.Set<T>();
+                includelist.ForEach(x => query = query.Include(x));
                 return await query.FirstOrDefaultAsync(predicate);
             }
         }

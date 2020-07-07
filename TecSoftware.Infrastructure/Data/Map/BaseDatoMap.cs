@@ -23,8 +23,12 @@ namespace TecSoftware.Infrastructure.Data
                 .OnDelete(DeleteBehavior.Restrict);
             builder.Property(c => c.Nombre)
                 .HasMaxLength(100);
+            builder.Property(c => c.DatabaseConnectionString)
+                .HasMaxLength(300);
             builder.Property(c => c.Estado)
-                .HasMaxLength(100);
+                .HasConversion<int>()
+                .IsRequired();
+
         }
     }
 }

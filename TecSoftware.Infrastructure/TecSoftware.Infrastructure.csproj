@@ -7,6 +7,12 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200624014954_InitialMigration.cs" />
     <Compile Remove="Migrations\20200624014954_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200704193435_ModificandoEstadoDB.cs" />
+    <Compile Remove="Migrations\20200704193435_ModificandoEstadoDB.Designer.cs" />
+    <Compile Remove="Migrations\20200704193824_ModificandoEstadoDB.cs" />
+    <Compile Remove="Migrations\20200704193824_ModificandoEstadoDB.Designer.cs" />
+    <Compile Remove="Migrations\20200704194328_ModificandoEstadoDB.cs" />
+    <Compile Remove="Migrations\20200704194328_ModificandoEstadoDB.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -14,6 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.1.7" />
+    <PackageReference Include="Microsoft.Azure.Storage.Common" Version="11.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
@@ -22,7 +31,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.5" />
-    <PackageReference Include="SaasKit.Multitenancy" Version="1.1.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.1.5" />
   </ItemGroup>
 
   <ItemGroup>

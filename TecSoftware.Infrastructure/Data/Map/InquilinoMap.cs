@@ -18,6 +18,12 @@ namespace TecSoftware.Infrastructure.Data
             builder.Property(c => c.Nombre).HasMaxLength(100);
             builder.Property(c => c.Dominio).HasMaxLength(500);
             builder.Property(c => c.PlanServicio).HasMaxLength(200);
+            builder.Property(c => c.FechaCreacion);
+            builder.Property(c => c.FechaInicio);
+            builder.Property(c => c.FechaFin);
+            builder.Property(c => c.Estado)
+                .HasConversion<int>()
+                .IsRequired();
         }
     }
 }

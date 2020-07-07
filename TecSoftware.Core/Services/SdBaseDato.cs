@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
@@ -17,6 +19,12 @@ namespace TecSoftware.Core
         public async Task<IEnumerable<string>> GetAll(string nameTenan)
         {
             return await _baseDatoRepository.GetAll(nameTenan);
+        }
+
+        public async Task<BaseDato> Single(
+            Expression<Func<BaseDato, bool>> predicate, List<Expression<Func<BaseDato, object>>> includes)
+        {
+            return await _baseDatoRepository.Single(predicate, includes);
         }
     }
 }

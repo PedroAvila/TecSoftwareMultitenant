@@ -2,7 +2,7 @@
 
 namespace TecSoftware.EntidadesDominio
 {
-    public class InquilinoDto
+    public class InquilinoExtend
     {
         public int InquilinoId { get; set; }
         public string Nombre { get; set; }
@@ -11,6 +11,8 @@ namespace TecSoftware.EntidadesDominio
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
+        public string DatabaseConnectionString { get; set; }
         public EstadoInquilino Estado { get; set; }
+
     }
 }

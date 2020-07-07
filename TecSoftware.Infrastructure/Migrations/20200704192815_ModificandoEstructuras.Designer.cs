@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Infrastructure.Migrations
 {
     [DbContext(typeof(CatalogoInquilinoContext))]
-    partial class CatalogoInquilinoContextModelSnapshot : ModelSnapshot
+    [Migration("20200704192815_ModificandoEstructuras")]
+    partial class ModificandoEstructuras
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,8 +35,9 @@ namespace TecSoftware.Infrastructure.Migrations
                         .HasColumnType("nvarchar(300)")
                         .HasMaxLength(300);
 
-                    b.Property<int>("Estado")
-                        .HasColumnType("int");
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
                         .HasColumnType("nvarchar(100)")

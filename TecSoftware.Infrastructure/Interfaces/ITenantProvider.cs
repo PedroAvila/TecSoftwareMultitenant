@@ -2,8 +2,8 @@
 
 namespace TecSoftware.Infrastructure
 {
-    public class InquilinoRepository : BaseRepository<Inquilino>
+    public interface ITenantProvider
     {
-
+        InquilinoExtend GetTenant();
     }
 }

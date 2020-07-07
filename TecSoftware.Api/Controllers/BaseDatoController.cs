@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using TecSoftware.Core;
 using TecSoftware.EntidadesDominio;
@@ -13,6 +15,7 @@ namespace TecSoftware.Api.Controllers
     {
         private readonly ISdBaseDato _sdBaseDato;
         private readonly IMapper _mapper;
+        string con = string.Empty;
 
         public BaseDatoController(ISdBaseDato sdBaseDato, IMapper mapper)
         {
@@ -21,12 +24,23 @@ namespace TecSoftware.Api.Controllers
         }
 
         [HttpGet("{nameTenan}")]
-        public async Task<IActionResult> GetAll(string nameTenan)
+        public async Task<IActionResult> Single(string nameTenan)
         {
-            var baseDato = await _sdBaseDato.GetAll(nameTenan);
-            //var baseDatoDto = _mapper.Map<BaseDatoDto>(baseDato);
-            var list = baseDato.ToList();
-            return Ok(list);
+            var baseDato = await _sdBaseDato.Single(x => x.Nombre == nameTenan,
+                new List<Expression<Func<BaseDato, object>>>() { x => x.Servidor });
+
+            if (baseDato != null)
+            {
+                con =
+                $"Server={baseDato.Servidor.Nombre},1433;Database={baseDato.Nombre};" +
+                "User ID=xxxxxxx;Password=xxxxxx;Trusted_Connection=False;" +
+                "Encrypt=True;MultipleActiveResultSets=True;";
+            }
+
+            var cnn = HttpContext.Connection;
+
+
+            return Ok(con);
         }
 
         [HttpPost]
