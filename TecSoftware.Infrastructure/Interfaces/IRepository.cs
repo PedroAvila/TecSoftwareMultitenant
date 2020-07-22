@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using TecSoftware.EntidadesDominio;
 
 namespace TecSoftware.Infrastructure
 {
@@ -12,6 +13,10 @@ namespace TecSoftware.Infrastructure
 
         Task<T> Single(Expression<Func<T, bool>> predicate);
         Task<T> Single(Expression<Func<T, bool>> predicate, List<Expression<Func<T, object>>> includes);
+
+        Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<T, UniversalExtend>> source);
+        Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<T, bool>> predicate
+            , Expression<Func<T, UniversalExtend>> source);
 
         IEnumerable<T> Filter(Expression<Func<T, bool>> predicate);
 

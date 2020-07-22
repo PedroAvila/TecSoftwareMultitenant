@@ -1,9 +1,11 @@
-﻿using TecSoftware.EntidadesDominio;
+﻿using System.Collections.Generic;
+using TecSoftware.EntidadesDominio;
 
 namespace TecSoftware.Infrastructure
 {
     public interface ITenantProvider
     {
-        InquilinoExtend GetTenant();
+        List<Conexion> GetConexions();
+        string GetName();
     }
 }

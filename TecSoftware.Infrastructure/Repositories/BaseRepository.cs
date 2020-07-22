@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using TecSoftware.EntidadesDominio;
 
 namespace TecSoftware.Infrastructure
 {
@@ -146,6 +147,17 @@ namespace TecSoftware.Infrastructure
                 entities.ForEach(x => context.Entry(x).State = EntityState.Deleted);
                 await context.SaveChangesAsync();
             }
+        }
+
+        public Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<T, UniversalExtend>> source)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<T, bool>> predicate,
+            Expression<Func<T, UniversalExtend>> source)
+        {
+            throw new NotImplementedException();
         }
     }
 }

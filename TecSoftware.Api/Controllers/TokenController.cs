@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +8,8 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
+using TecSoftware.Core;
 using TecSoftware.EntidadesDominio;
 
 namespace TecSoftware.Api.Controllers
@@ -16,38 +19,40 @@ namespace TecSoftware.Api.Controllers
     public class TokenController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        public TokenController(IConfiguration configuration)
+        private readonly ISdInquilino _sdInquilino;
+        private readonly IMapper _mapper;
+
+        public TokenController(IConfiguration configuration, IMapper mapper, ISdInquilino sdInquilino)
         {
             _configuration = configuration;
+
+            _mapper = mapper;
+            _sdInquilino = sdInquilino;
+            //_tenantProvider = tenantProvider;
         }
 
         [HttpPost]
-        public IActionResult Authentication(UsuarioDto usuarioDto)
+        public IActionResult Authentication(UserLoginDto user)
         {
-            //Si es un usuario valido
-            //if (IsValidUser(login))
-            //{
-            //    var token = GenerateToken();
-            //    return Ok(new { token });
-            //}
-            //return NotFound();
-            if (!string.IsNullOrEmpty(usuarioDto.User)
-                && !string.IsNullOrEmpty(usuarioDto.Password)
-                && !string.IsNullOrEmpty(usuarioDto.Tenant))
+            if (!string.IsNullOrEmpty(user.Tenant))
             {
-                var token = GenerateToken(Utilidades.Desifrar(usuarioDto.User), Utilidades.Desifrar(usuarioDto.Password)
-                    , Utilidades.Desifrar(usuarioDto.Tenant));
-                return Ok(new { token });
+                if (IsValidUser(Utilidades.Desifrar(user.Tenant)).Result)
+                {
+                    var token = GenerateToken(Utilidades.Desifrar(user.Tenant));
+                    return Ok(new { token });
+                }
             }
             return NotFound();
         }
 
-        private bool IsValidUser(UserLogin login)
+        private async Task<bool> IsValidUser(string tenant)
         {
-            return true;
+            //Autentificar en DB del negocio.
+            bool exist = await _sdInquilino.Exist(x => x.Nombre == tenant);
+            return exist;
         }
 
-        private string GenerateToken(string user, string pass, string tenant)
+        private string GenerateToken(string tenant)
         {
             //Header
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:SecretKey"]));
@@ -57,9 +62,9 @@ namespace TecSoftware.Api.Controllers
             //Claims
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, user),
-                new Claim(ClaimTypes.Email, pass),
-                new Claim(ClaimTypes.Role, tenant),
+                new Claim(ClaimTypes.Name, tenant),
+                //new Claim(ClaimTypes.Email, pass),
+                //new Claim(ClaimTypes.Role, Utilidades.Desifrar(user.Tenant)),
             };
 
             //Payload

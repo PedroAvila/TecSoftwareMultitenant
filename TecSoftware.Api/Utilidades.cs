@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
-using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -8,20 +6,7 @@ namespace TecSoftware.Api
 {
     public class Utilidades
     {
-        public static string Clave = "MADSshj";
-        public static string Decoding(SecureString value)
-        {
-            IntPtr valuePtr = IntPtr.Zero;
-            try
-            {
-                valuePtr = Marshal.SecureStringToGlobalAllocUnicode(value);
-                return Marshal.PtrToStringUni(valuePtr);
-            }
-            finally
-            {
-                Marshal.ZeroFreeGlobalAllocUnicode(valuePtr);
-            }
-        }
+        private static string Clave = "MADSshj";
 
         public static string Desifrar(string textoEncriptado)
         {

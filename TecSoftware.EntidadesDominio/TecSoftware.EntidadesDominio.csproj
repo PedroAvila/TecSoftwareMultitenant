@@ -4,4 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="GlobalTech.TextBoxControl">
+      <HintPath>..\Lib\GlobalTech.TextBoxControl.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

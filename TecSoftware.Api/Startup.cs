@@ -47,8 +47,9 @@ namespace TecSoftware.Api
             services.AddTransient<ISdServidor, SdServidor>();
             services.AddTransient<ISdBaseDato, SdBaseDato>();
             services.AddTransient<ISdInquilino, SdInquilino>();
-            services.AddTransient<ISdPrueba, SdPrueba>();
-            services.AddTransient<IService, Service>();
+            services.AddTransient<ISdUsuario, SdUsuario>();
+            //services.AddTransient<IService, Service>();
+
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
             services.AddHttpContextAccessor();

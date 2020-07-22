@@ -11,7 +11,10 @@ namespace TecSoftware.Core
     {
         private readonly InquilinoRepository _inquilinoRepository = new InquilinoRepository();
 
-        
+        public Task<bool> Exist(Expression<Func<Inquilino, bool>> predicate)
+        {
+            return _inquilinoRepository.Exist(predicate);
+        }
 
         public Task<Inquilino> Single(Expression<Func<Inquilino, bool>> predicate,
             List<Expression<Func<Inquilino, object>>> includes)
