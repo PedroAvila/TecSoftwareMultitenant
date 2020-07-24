@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -12,7 +13,7 @@ namespace TecSoftware.Infrastructure
         public async Task<string> GenerarCodigo() //IOrdenCompra<OrdenCompra>
         {
             string codigo;
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await context.OrdenCompras.MaxAsync(x => x.NumeroOrden);
                 int number = Convert.ToInt32(result);
@@ -25,7 +26,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task Registrar(OrdenCompra entity)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 //VENTA
                 context.Entry(entity).State = EntityState.Added;
@@ -45,7 +46,7 @@ namespace TecSoftware.Infrastructure
         /// <returns></returns>
         public async Task<IEnumerable<OrdenCompraExtend>> ListarOrdenCompra(int ordenCompraId)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await context.OrdenCompraExtends.FromSqlRaw(
                     "SELECT oc.NumeroOrden, p.RazonSocial, oc.DireccionEntrega, oc.FechaEmision, oc.FechaEntrega, oc.FormaPago," +

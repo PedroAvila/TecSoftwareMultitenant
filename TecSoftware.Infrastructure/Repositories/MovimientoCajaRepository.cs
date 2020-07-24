@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -16,7 +17,7 @@ namespace TecSoftware.Infrastructure
         /// <returns></returns>
         public async Task<decimal> MontoInicial(int operacion)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var maxMontoInicial = from mc in context.MovimientoCajas
                                           //where DbFunctions.TruncateTime(m.Fecha) == DbFunctions.TruncateTime(fecha)
@@ -32,7 +33,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<decimal> MontoInicialXAno(int ano, int puntoEmision)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var maxMontoInicial = from m in context.MovimientoCajas
                                       where m.Fecha.Year == ano
@@ -51,7 +52,7 @@ namespace TecSoftware.Infrastructure
         //public bool ExisteMonto(DateTime fecha, int operacion)
         public async Task<bool> ExisteMonto(int operacion)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await (from mc in context.MovimientoCajas
                                     join o in context.Operaciones on mc.OperacionId equals o.OperacionId
@@ -69,7 +70,7 @@ namespace TecSoftware.Infrastructure
         /// <returns></returns>
         public async Task<decimal> SumIngreso(int operacion)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await (from mc in context.MovimientoCajas
                                         //where DbFunctions.TruncateTime(m.Fecha) == DbFunctions.TruncateTime(fecha)
@@ -84,7 +85,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<decimal> SumGastos(DateTime fecha, int puntoEmision)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from m in context.MovimientoCajas
                              where m.Fecha.Date == fecha.Date
@@ -100,7 +101,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<decimal> SumDevolucion(DateTime fecha, int puntoEmision)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from m in context.MovimientoCajas
                              where m.Fecha.Date == fecha.Date
@@ -121,7 +122,7 @@ namespace TecSoftware.Infrastructure
         /// <returns></returns>
         public async Task<IEnumerable<MovimientoCaja>> PoolMontos(int puntoEmision)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await (from mc in context.MovimientoCajas
                                         //where DbFunctions.TruncateTime(m.Fecha) == DbFunctions.TruncateTime(fecha)
@@ -135,7 +136,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<MovimientoCaja> Buscar(DateTime fecha, int puntoEmision, MovimientoCajaType movimientoType, int id)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await (from m in context.MovimientoCajas
                                     where m.Fecha.Date == fecha.Date
@@ -148,7 +149,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<IEnumerable<UniversalExtend>> ListarIngreso(int puntoEmision)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from m in context.MovimientoCajas
                              join o in context.Operaciones on m.OperacionId equals o.OperacionId
@@ -167,7 +168,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<IEnumerable<UniversalExtend>> ListarEgreso(int puntoEmision)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from m in context.MovimientoCajas
                              join o in context.Operaciones on m.OperacionId equals o.OperacionId
@@ -186,7 +187,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<IEnumerable<UniversalExtend>> ListarDevolucion(int puntoEmision)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from m in context.MovimientoCajas
                              join o in context.Operaciones on m.OperacionId equals o.OperacionId
@@ -211,7 +212,7 @@ namespace TecSoftware.Infrastructure
         /// <returns></returns>
         public async Task<bool> AperturoCaja(int puntoEmision)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await (from m in context.MovimientoCajas
                                     join o in context.Operaciones on m.OperacionId equals o.OperacionId

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
-
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -13,7 +13,7 @@ namespace TecSoftware.Infrastructure
     {
         public async Task<IEnumerable<ProductoCotizacionExtend>> ListaProductoCotizacion(int id)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from pc in context.ProductoCotizaciones
                              join p in context.Productos on pc.ProductoId equals p.ProductoId
@@ -39,7 +39,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<int> ObtenerIdProductoCotizacion(string numeroCotizacion, int productoId)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await (from pc in context.ProductoCotizaciones
                                     join sc in context.SolicitudCotizaciones on pc.SolicitudCotizacionId equals sc.SolicitudCotizacionId

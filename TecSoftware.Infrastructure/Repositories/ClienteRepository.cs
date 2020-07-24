@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -10,7 +11,7 @@ namespace TecSoftware.Infrastructure
     {
         public async Task<IEnumerable<UniversalExtend>> ListaClienteXCodigo(Criteria filter)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var resul = from c in context.Clientes
                             join t in context.TipoIdentificaciones on c.TipoIdentificacionId equals t.TipoIdentificacionId

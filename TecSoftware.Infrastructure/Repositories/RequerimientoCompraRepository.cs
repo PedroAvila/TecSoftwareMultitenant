@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -13,7 +14,7 @@ namespace TecSoftware.Infrastructure
         public async Task<string> GenerarCodigo()
         {
             string codigo;
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await context.RequerimientoCompras.MaxAsync(x => x.NumeroRequerimiento);
                 int number = Convert.ToInt32(result);
@@ -24,7 +25,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<IEnumerable<UniversalExtend>> SelectRequerimientoCompra(CriteriaDocumento filter)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from rc in context.RequerimientoCompras
                              where

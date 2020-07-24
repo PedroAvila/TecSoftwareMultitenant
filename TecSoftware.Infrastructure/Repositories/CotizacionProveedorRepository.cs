@@ -3,6 +3,7 @@ using System;
 using System.Data;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -14,7 +15,7 @@ namespace TecSoftware.Infrastructure
         /// <returns></returns>
         public DataSet CotizacionProveedor()
         {
-            //using (var context = new CatalogoInquilinoContext())
+            //using (var context = new BusinessContext())
             //{
             //    var dataSet = new DataSet();
             //    SqlConnection cn = context.Database.Connection as SqlConnection;
@@ -40,7 +41,7 @@ namespace TecSoftware.Infrastructure
         public async Task<string> GenerarCodigo()
         {
             string codigo;
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await context.CotizacionProveedores.MaxAsync(x => x.NumeroCotizacion);
                 int number = Convert.ToInt32(result);
@@ -51,7 +52,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task Registrar(CotizacionProveedor entity)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 //VENTA
                 context.Entry(entity).State = EntityState.Added;

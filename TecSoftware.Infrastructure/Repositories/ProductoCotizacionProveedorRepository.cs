@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -25,7 +26,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<IEnumerable<CotizacionProveedorExtend>> BuscarCotizacionesXProducto(int producto)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from pcp in context.ProductoCotizacionProveedores
                              join cp in context.CotizacionProveedores on pcp.CotizacionProveedorId equals cp.CotizacionProveedorId
@@ -53,7 +54,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<ProductoCotizacionProveedorExtend> BuscarProductoCotizacionProveedor(int id)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await (from pcp in context.ProductoCotizacionProveedores
                                     join cp in context.CotizacionProveedores on pcp.CotizacionProveedorId equals cp.CotizacionProveedorId
@@ -78,7 +79,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<IEnumerable<ProductoCotizacionProveedorExtend>> ListaProductosProveedor()
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from pcp in context.ProductoCotizacionProveedores
                              join cp in context.CotizacionProveedores on pcp.CotizacionProveedorId equals cp.CotizacionProveedorId

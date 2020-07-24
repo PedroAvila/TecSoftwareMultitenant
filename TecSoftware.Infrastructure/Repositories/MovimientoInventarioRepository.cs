@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -9,7 +10,7 @@ namespace TecSoftware.Infrastructure
     {
         public Task<decimal> ObtenerCantidadSaldoFinal(int producto)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from mi in context.MovimientoInventarios
                              join pa in context.ProductoAlmacenes on mi.ProductoAlmacenId equals pa.ProductoAlmacenId

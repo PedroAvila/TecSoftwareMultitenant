@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -80,7 +81,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task Registrar(List<DetalleOrdenVenta> list)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 //Venta
                 foreach (var e in list)
@@ -98,7 +99,7 @@ namespace TecSoftware.Infrastructure
         /// <returns></returns>
         public async Task<List<DetalleOrdenVentaExtend>> SearchXFolio(int folio)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from v in context.DetalleOrdenVentas
                              join p in context.Productos on v.ProductoId equals p.ProductoId
@@ -133,7 +134,7 @@ namespace TecSoftware.Infrastructure
         /// <returns></returns>
         public async Task<IEnumerable<DetalleOrdenVentaExtend>> BuscarDetalleOrdenVenta(int id)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from dov in context.DetalleOrdenVentas
                              join p in context.Productos on dov.ProductoId equals p.ProductoId

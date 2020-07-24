@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -10,7 +11,7 @@ namespace TecSoftware.Infrastructure
     {
         public async Task AsignarIdentificaciones(Comprobante comprobante, List<TipoIdentificacion> identificaciones)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 //await Task.Run(() =>
                 //{
@@ -43,7 +44,7 @@ namespace TecSoftware.Infrastructure
             if (identificaciones == null || identificaciones.Count == 0)
                 return;
 
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 //recuperamos el terrotorio y sus empleados
                 //esto es necesario porque el objeto donde se debe remover tiene que estar dentro del contexto de EF
@@ -74,7 +75,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<IEnumerable<UniversalExtend>> ComprobantePagos()
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var list = from c in context.Comprobantes
                            where c.Codigo != "06"

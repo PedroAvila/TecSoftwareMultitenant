@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -9,7 +10,7 @@ namespace TecSoftware.Infrastructure
     {
         public async Task<bool> Autentificar(Usuario entity)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var count = await (from u in context.Usuarios
                     .Where(x => x.User == entity.User && x.Password == entity.Password)
@@ -21,7 +22,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task UpdateUser(Usuario entity)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var query = await (from u in context.Usuarios
                                    where u.UsuarioId == entity.UsuarioId

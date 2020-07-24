@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -10,7 +11,7 @@ namespace TecSoftware.Infrastructure
     {
         public async Task<IEnumerable<CierreCajaExtend>> MostrarCierreCaja(int operacion, int puntoEmision)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await context.CierreCajaExtends.FromSqlRaw(
                     "SELECT e.Nombre AS NombreEstablecimiento, pe.Nombre AS NombrePuntoEmision, " +
@@ -35,7 +36,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<IEnumerable<RecuentoDenominacionExtend>> MostrarRecuentoDenominacion(int operacion)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await context.RecuentoDenominacionExtends.FromSqlRaw(
                     "SELECT d.Nombre, r.Cantidad, d.Valor, r.Cantidad * d.Valor as Total" +

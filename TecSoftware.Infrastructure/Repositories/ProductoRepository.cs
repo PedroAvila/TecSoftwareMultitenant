@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -12,7 +13,7 @@ namespace TecSoftware.Infrastructure
     {
         public async Task AsignarTarifaImpuestos(Producto producto, List<TasaImpuesto> tImpuestos)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 context.Entry(producto).State = EntityState.Unchanged;
 
@@ -41,7 +42,7 @@ namespace TecSoftware.Infrastructure
             if (tImpuestos == null || tImpuestos.Count == 0)
                 return;
 
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 //recuperamos el terrotorio y sus empleados
                 //esto es necesario porque el objeto donde se debe remover tiene que estar dentro del contexto de EF
@@ -72,7 +73,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<List<ICollection<TasaImpuesto>>> TasaImpuestosXProducto(int id)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var list = await context.Productos
                     .Include(c => c.TasaImpuestos)
@@ -89,7 +90,7 @@ namespace TecSoftware.Infrastructure
 
         public void Actualizar(Producto entity)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 //CABECERA
                 //context.Entry(entity).State = EntityState.Modified;
@@ -116,7 +117,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task AsignarTallas(Producto producto, List<Talla> tallas)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 context.Entry(producto).State = EntityState.Unchanged;
 
@@ -145,7 +146,7 @@ namespace TecSoftware.Infrastructure
             if (tallas == null || tallas.Count == 0)
                 return;
 
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 //recuperamos el terrotorio y sus empleados
                 //esto es necesario porque el objeto donde se debe remover tiene que estar dentro del contexto de EF
@@ -176,7 +177,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task AsignarColores(Producto producto, List<Colour> colores)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 context.Entry(producto).State = EntityState.Unchanged;
 
@@ -205,7 +206,7 @@ namespace TecSoftware.Infrastructure
             if (colores == null || colores.Count == 0)
                 return;
 
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 //recuperamos el terrotorio y sus empleados
                 //esto es necesario porque el objeto donde se debe remover tiene que estar dentro del contexto de EF
@@ -237,7 +238,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task AsignarProveedores(Producto producto, List<Proveedor> proveedores)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 context.Entry(producto).State = EntityState.Unchanged;
 
@@ -267,7 +268,7 @@ namespace TecSoftware.Infrastructure
             if (proveedores == null || proveedores.Count == 0)
                 return;
 
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 //recuperamos el terrotorio y sus empleados
                 //esto es necesario porque el objeto donde se debe remover tiene que estar dentro del contexto de EF
@@ -297,7 +298,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<ProductoExtend> BuscarXCodigo(string valor)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await (from p in context.Productos
                                     join pp in context.ProductoPrecios
@@ -317,7 +318,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<IEnumerable<UniversalExtend>> SearchProduct(string valor)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await (from p in context.Productos
                                     join pp in context.ProductoPrecios
@@ -340,7 +341,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<IEnumerable<ProductoExtend>> BuscarProducto(CriteriaProducto filter)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await (from p in context.Productos
                                     join pp in context.ProductoPrecios
@@ -371,7 +372,7 @@ namespace TecSoftware.Infrastructure
         public async Task<string> GenerarCodigo()
         {
             string codigo;
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await context.Productos.MaxAsync(x => x.Codigo);
                 int number = Convert.ToInt32(result);
@@ -382,7 +383,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<IEnumerable<ProductoExtend>> ProductoMasVendido(DateTime desde, DateTime hasta)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 //var result = (from cp in context.ComprobantePagos
                 //              join dcp in context.DetalleComprobantePagos
@@ -414,7 +415,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<IEnumerable<ProductoExtend>> ProductoMasRentable(DateTime desde, DateTime hasta)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await context.ProductoExtends.FromSqlRaw(
                     @"SELECT
@@ -435,7 +436,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<IEnumerable<ProductoExtend>> ProductoSinMovimiento(DateTime desde, DateTime hasta)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await context.ProductoExtends.FromSqlRaw(
                     @"SELECT p.Codigo, p.Nombre AS ProductoNombre, pp.Utilidad

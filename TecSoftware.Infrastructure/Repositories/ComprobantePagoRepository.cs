@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -15,7 +16,7 @@ namespace TecSoftware.Infrastructure
     {
         public async Task Registrar(ComprobantePago entity)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 //VENTA
                 context.Entry(entity).State = EntityState.Added;
@@ -51,7 +52,7 @@ namespace TecSoftware.Infrastructure
         /// <returns></returns>
         public async Task<string> CodigoNumerico()
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await (from cp in context.ComprobantePagos
                                     select cp.CodigoNumerico).MaxAsync();
@@ -63,7 +64,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<IEnumerable<FacturaExtend>> ListarFactura(int comprobantePagoId)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await context.FacturaExtends.FromSqlRaw(
                     "SELECT cp.NumeroComprobante, cp.FechaEmision, c.RazonSocial, c.Numero, c.Direccion, c2.Nombre AS NombreComprobante," +

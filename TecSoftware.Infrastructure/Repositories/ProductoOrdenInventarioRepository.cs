@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -11,7 +12,7 @@ namespace TecSoftware.Infrastructure
     {
         public async Task<IEnumerable<ProductoOrdenInventarioExtend>> ListaProductoOrdenInventario(int id)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from po in context.ProductoOrdenInventarios
                              join p in context.Productos on po.ProductoId equals p.ProductoId
@@ -47,7 +48,7 @@ namespace TecSoftware.Infrastructure
         /// <returns></returns>
         public async Task<IEnumerable<ProductoOrdenInventarioExtend>> SelectProductoOrdenesInventario(CriteriaProductoOrdenInventario filter)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from po in context.ProductoOrdenInventarios
                              join p in context.Productos on po.ProductoId equals p.ProductoId

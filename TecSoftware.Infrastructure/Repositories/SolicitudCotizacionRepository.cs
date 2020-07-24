@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Persistencia
 {
@@ -13,7 +14,7 @@ namespace TecSoftware.Persistencia
         public async Task<string> GenerarCodigo()
         {
             string codigo;
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await context.SolicitudCotizaciones.MaxAsync(x => x.NumeroCotizacion);
                 int number = Convert.ToInt32(result);
@@ -24,7 +25,7 @@ namespace TecSoftware.Persistencia
 
         public async Task<IEnumerable<UniversalExtend>> SelectSolicitudCotizacion(CriteriaDocumento filter)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from sc in context.SolicitudCotizaciones
                              join p in context.Proveedores on sc.ProveedorId equals p.ProveedorId
@@ -51,7 +52,7 @@ namespace TecSoftware.Persistencia
 
         public async Task Registrar(SolicitudCotizacion entity)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 //CABECERA
                 context.Entry(entity).State = EntityState.Added;
@@ -66,7 +67,7 @@ namespace TecSoftware.Persistencia
 
         public async Task<IEnumerable<SolicitudCotizacionExtend>> ListarSolicitudCotizacion(int solicitudCotizacionId)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await context.SolicitudCotizacionExtends.FromSqlRaw(
                     @"SELECT sc.NumeroCotizacion, sc.FechaEmision, sc.FechaEntrega, prv.RazonSocial,
@@ -84,7 +85,7 @@ namespace TecSoftware.Persistencia
 
         public async Task UpdateSolicitudCotizacion(int id, SolicitudCotizacionStatus estado)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var query = (from sc in context.SolicitudCotizaciones
                              where sc.SolicitudCotizacionId == id

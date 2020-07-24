@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -10,7 +11,7 @@ namespace TecSoftware.Infrastructure
     {
         public async Task<IEnumerable<UniversalExtend>> ListaPtoEmision()
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var list = from p in context.PuntoEmisiones
                            join e in context.Establecimientos
@@ -22,7 +23,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<IEnumerable<UniversalExtend>> ListaPtoEmision(int id)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var list = from p in context.PuntoEmisiones
                            join e in context.Establecimientos
@@ -35,7 +36,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<string> NumeroSerie(int puntoEmision) //Poner Try Cach en dominio
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from e in context.Establecimientos
                              join pe in context.PuntoEmisiones on e.EstablecimientoId equals pe.EstablecimientoId
@@ -47,7 +48,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task UpdatePuntoEmision(PuntoEmision entity)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var query = await (from p in context.PuntoEmisiones
                                    where p.PuntoEmisionId == entity.PuntoEmisionId

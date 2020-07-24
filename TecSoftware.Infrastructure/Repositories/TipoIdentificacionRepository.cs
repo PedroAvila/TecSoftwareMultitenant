@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -13,7 +14,7 @@ namespace TecSoftware.Infrastructure
     {
         public async Task<IEnumerable<UniversalExtend>> ListaIdentificacionXCodigo()
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
 
                 var codigos = new List<string> { "04", "05", "06" };
@@ -26,7 +27,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<List<ICollection<TipoIdentificacion>>> IdentificacionXComprobante(int id)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var list = await context.Comprobantes
                     //.Include(c => c.TipoIdentificaciones)
@@ -58,7 +59,7 @@ namespace TecSoftware.Infrastructure
         public async Task<IEnumerable<TipoIdentificacionExtend>> ListaVinculacionDatos
             (Expression<Func<TipoIdentificacion, TipoIdentificacionExtend>> source)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await context.Set<TipoIdentificacion>().AsNoTracking()
                     .Select(source).ToListAsync();

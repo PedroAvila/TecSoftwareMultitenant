@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -10,7 +11,7 @@ namespace TecSoftware.Infrastructure
     {
         public async Task<IEnumerable<ProductoAlmacenExtend>> ListaProductoAlmacen(int id)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from pa in context.ProductoAlmacenes
                              join p in context.Productos on pa.ProductoId equals p.ProductoId
@@ -35,7 +36,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task UpdateProductoAlmacen(int producto, int almacen, decimal saldo)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var query = await (from pa in context.ProductoAlmacenes
                                    where pa.ProductoId == producto && pa.AlmacenId == almacen

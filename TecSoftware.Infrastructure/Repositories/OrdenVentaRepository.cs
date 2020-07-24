@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -11,7 +12,7 @@ namespace TecSoftware.Infrastructure
     {
         public async Task Registrar(OrdenVenta entity) //IOrdenVenta<OrdenVenta>
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 //VENTA
                 context.Entry(entity).State = EntityState.Added;
@@ -26,7 +27,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task Actualizar(OrdenVenta entity)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             { //Técnica cuando esta fuera de contexto alguna propiedad como OrdenVentaId, cuando lo agregas por fuera.
                 var local = context.Set<OrdenVenta>()
                     .Local
@@ -48,7 +49,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<string> CodigoNumerico()
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await (from ov in context.OrdenVentas
                                     select ov.CodigoNumerico).MaxAsync();
@@ -65,7 +66,7 @@ namespace TecSoftware.Infrastructure
         /// <returns></returns>
         public async Task<IEnumerable<UniversalExtend>> SelectOrdenesDeVenta(CriteriaOrdenVenta filter)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = from ov in context.OrdenVentas
                              join c in context.Clientes on ov.ClienteId equals c.ClienteId

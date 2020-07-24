@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -10,7 +11,7 @@ namespace TecSoftware.Infrastructure
     {
         public async Task<string> NumeroSecuencial(int puntoEmision) //INumeradorOrdenVenta<NumeradorOrdenVenta>
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var result = await (from no in context.NumeradorOrdenVentas
                                     where no.PuntoEmisionId == puntoEmision
@@ -23,7 +24,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task UpdateNumeradorOrdenVenta(NumeradorOrdenVenta entity)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var query = (from no in context.NumeradorOrdenVentas
                              where no.PuntoEmisionId == entity.PuntoEmisionId

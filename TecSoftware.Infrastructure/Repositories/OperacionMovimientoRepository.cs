@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
@@ -8,7 +9,7 @@ namespace TecSoftware.Infrastructure
     {
         public async Task Registrar(OperacionMovimiento entity) //IOperacionMovimiento<OperacionMovimiento>
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 //Operacion Movimiento
                 context.Entry(entity).State = EntityState.Added;
