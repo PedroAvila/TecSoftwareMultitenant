@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Collections.Generic;
 using TecSoftware.EntidadesDominio;
 
 namespace TecSoftware.Api.Mappings
@@ -20,6 +21,7 @@ namespace TecSoftware.Api.Mappings
             //    .ForMember(dest => dest.Estado, opt => opt.Ignore())
             //    .ForMember(dest => dest.BaseDato, opt => opt.Ignore()).ReverseMap();
             CreateMap<Usuario, UsuarioDto>().ReverseMap();
+            CreateMap<List<DetalleOrdenVenta>, List<DetalleComprobantePago>>().ReverseMap();
         }
     }
 }

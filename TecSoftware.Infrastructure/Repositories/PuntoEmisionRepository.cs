@@ -7,7 +7,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class PuntoEmisionRepository : BaseInquilinoRepository<PuntoEmision>, IPuntoEmision<PuntoEmision>
+    public class PuntoEmisionRepository : BaseBusinessRepository<PuntoEmision>, IPuntoEmision<PuntoEmision>
     {
         public async Task<IEnumerable<UniversalExtend>> ListaPtoEmision()
         {

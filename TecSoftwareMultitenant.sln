@@ -23,6 +23,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.2 ServiciosDominio", "2.2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TecSoftware.Core", "TecSoftware.Core\TecSoftware.Core.csproj", "{DB4778C5-527A-4AA0-B0C5-7572B785DD7A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 BusinessException", "4 BusinessException", "{B7137C98-AE7F-4854-B3B4-AF544DD7BBEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TecSoftware.BusinessException", "TecSoftware.BusinessException\TecSoftware.BusinessException.csproj", "{25D2FB2C-EB59-48D0-9129-DAD991A9B933}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,10 @@ Global
 		{DB4778C5-527A-4AA0-B0C5-7572B785DD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB4778C5-527A-4AA0-B0C5-7572B785DD7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB4778C5-527A-4AA0-B0C5-7572B785DD7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25D2FB2C-EB59-48D0-9129-DAD991A9B933}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25D2FB2C-EB59-48D0-9129-DAD991A9B933}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25D2FB2C-EB59-48D0-9129-DAD991A9B933}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25D2FB2C-EB59-48D0-9129-DAD991A9B933}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +67,8 @@ Global
 		{C47A1BE5-F4FF-4896-9CE7-289637EB7CE3} = {057DEF28-4598-43CD-86F6-26A77708CD62}
 		{C9D8BDBB-77CF-40B4-834F-82439BEF81C7} = {E0462E7C-3CDC-41B4-A443-60D8A3435103}
 		{DB4778C5-527A-4AA0-B0C5-7572B785DD7A} = {C9D8BDBB-77CF-40B4-834F-82439BEF81C7}
+		{B7137C98-AE7F-4854-B3B4-AF544DD7BBEF} = {E3E96823-4DD9-4232-ABD5-D62B5D4F3520}
+		{25D2FB2C-EB59-48D0-9129-DAD991A9B933} = {B7137C98-AE7F-4854-B3B4-AF544DD7BBEF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7F9B9148-C0A3-49C0-9434-4E0E7D8FF3EC}

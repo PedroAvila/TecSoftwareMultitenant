@@ -2,7 +2,7 @@
 
 namespace TecSoftware.Infrastructure
 {
-    public class AlmacenRepository : BaseInquilinoRepository<Almacen>
+    public class AlmacenRepository : BaseBusinessRepository<Almacen>
     {
     }
 }

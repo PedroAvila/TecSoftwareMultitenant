@@ -1,6 +1,8 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -11,9 +13,9 @@ namespace TecSoftware.Core
         private readonly DetalleComprobantePagoRepository _detalleComprobantePagoRepository = new DetalleComprobantePagoRepository();
         private readonly ProductoRepository _productoRepository = new ProductoRepository();
 
-        public void Agregar(DetalleComprobantePagoExtend entity)
+        public async Task Agregar(DetalleComprobantePagoExtend entity)
         {
-            var producto = _productoRepository.Single(x => x.ProductoId == entity.ProductoId,
+            var producto = await _productoRepository.Single(x => x.ProductoId == entity.ProductoId,
             new List<Expression<Func<Producto, object>>>() {
                 x=>x.Medida,
                 x => x.TasaImpuestos,
@@ -44,18 +46,18 @@ namespace TecSoftware.Core
                 if (producto.CalculoImportePorRangos)
                 {
                     context.SetStrategy(new CalculadoraPorRangos(producto));
-                    DetalleOrdenVentaExtend detalle = context.SeleccionaProducto(producto, destino);
+                    DetalleOrdenVentaExtend detalle = await context.SeleccionaProducto(producto, destino);
                     var destino2 =
                         iMapper2.Map<DetalleOrdenVentaExtend, DetalleComprobantePagoExtend>(detalle);
-                    _detalleComprobantePagoRepository.Agregar(destino2);
+                    await _detalleComprobantePagoRepository.Agregar(destino2);
                 }
                 else
                 {
                     context.SetStrategy(new CalculadoraClasica(producto));
-                    DetalleOrdenVentaExtend detalle = context.SeleccionaProducto(producto, destino);
+                    DetalleOrdenVentaExtend detalle = await context.SeleccionaProducto(producto, destino);
                     var destino2 =
                         iMapper2.Map<DetalleOrdenVentaExtend, DetalleComprobantePagoExtend>(detalle);
-                    _detalleComprobantePagoRepository.Agregar(destino2);
+                    await _detalleComprobantePagoRepository.Agregar(destino2);
 
                 }
                 entity.SumSubTotalIva = _detalleComprobantePagoRepository.SumaSubTotal();
@@ -103,10 +105,10 @@ namespace TecSoftware.Core
             _detalleComprobantePagoRepository.Clean();
         }
 
-        public DetalleComprobantePago Single(Expression<Func<DetalleComprobantePago, bool>> predicate,
+        public async Task<DetalleComprobantePago> Single(Expression<Func<DetalleComprobantePago, bool>> predicate,
             List<Expression<Func<DetalleComprobantePago, object>>> includes)
         {
-            return _detalleComprobantePagoRepository.Single(predicate, includes);
+            return await _detalleComprobantePagoRepository.Single(predicate, includes);
         }
     }
 }

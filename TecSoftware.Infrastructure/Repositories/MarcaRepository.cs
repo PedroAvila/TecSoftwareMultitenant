@@ -2,7 +2,7 @@
 
 namespace TecSoftware.Infrastructure
 {
-    public class MarcaRepository : BaseInquilinoRepository<Marca>
+    public class MarcaRepository : BaseBusinessRepository<Marca>
     {
     }
 }

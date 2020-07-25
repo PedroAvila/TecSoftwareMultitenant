@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -32,9 +33,9 @@ namespace TecSoftware.Core
             return _operacionRepository.Exist(predicate);
         }
 
-        public Operacion Single(Expression<Func<Operacion, bool>> predicate)
+        public async Task<Operacion> Single(Expression<Func<Operacion, bool>> predicate)
         {
-            return _operacionRepository.Single(predicate);
+            return await _operacionRepository.Single(predicate);
         }
     }
 }

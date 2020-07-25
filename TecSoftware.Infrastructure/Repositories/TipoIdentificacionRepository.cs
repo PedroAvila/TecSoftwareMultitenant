@@ -9,7 +9,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class TipoIdentificacionRepository : BaseInquilinoRepository<TipoIdentificacion>,
+    public class TipoIdentificacionRepository : BaseBusinessRepository<TipoIdentificacion>,
         ITipoIdentificacion<TipoIdentificacion>
     {
         public async Task<IEnumerable<UniversalExtend>> ListaIdentificacionXCodigo()

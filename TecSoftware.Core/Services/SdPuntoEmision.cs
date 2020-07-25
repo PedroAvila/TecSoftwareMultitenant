@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -95,9 +96,9 @@ namespace TecSoftware.Core
             return _puntoEmisionRepository.ListaPtoEmision(id);
         }
 
-        public string NumeroSerie(int puntoEmision)
+        public async Task<string> NumeroSerie(int puntoEmision)
         {
-            return _puntoEmisionRepository.NumeroSerie(puntoEmision);
+            return await _puntoEmisionRepository.NumeroSerie(puntoEmision);
         }
 
     }

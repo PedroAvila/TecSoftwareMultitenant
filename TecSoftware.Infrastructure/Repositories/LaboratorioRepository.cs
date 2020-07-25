@@ -2,7 +2,7 @@
 
 namespace TecSoftware.Infrastructure
 {
-    public class LaboratorioRepository : BaseInquilinoRepository<Laboratorio>
+    public class LaboratorioRepository : BaseBusinessRepository<Laboratorio>
     {
     }
 }

@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TecSoftware.BusinessException\TecSoftware.BusinessException.csproj" />
     <ProjectReference Include="..\TecSoftware.EntidadesDominio\TecSoftware.EntidadesDominio.csproj" />
     <ProjectReference Include="..\TecSoftware.Infrastructure\TecSoftware.Infrastructure.csproj" />
   </ItemGroup>

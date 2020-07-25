@@ -6,7 +6,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class OperacionRepository : BaseInquilinoRepository<Operacion>, IOperacion<Operacion>
+    public class OperacionRepository : BaseBusinessRepository<Operacion>, IOperacion<Operacion>
     {
         /// <summary>
         /// Verifica si la entidad tiene registros dados de alta.

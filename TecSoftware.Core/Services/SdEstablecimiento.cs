@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using TecSoftware.BusinessException;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -10,73 +12,70 @@ namespace TecSoftware.Core
     public class SdEstablecimiento
     {
         private readonly EstablecimientoRepository _establecimientoRepository = new EstablecimientoRepository();
-        private readonly EstablecimientoValidator _establecimientoValidator = new EstablecimientoValidator();
+
 
         public IEnumerable<Establecimiento> GetAll()
         {
             return _establecimientoRepository.GetAll();
         }
 
-        public IEnumerable<UniversalExtend> SelectList(Expression<Func<Establecimiento, UniversalExtend>> source)
+        public async Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<Establecimiento, UniversalExtend>> source)
         {
-            return _establecimientoRepository.SelectList(source);
+            return await _establecimientoRepository.SelectList(source);
         }
 
-        public IEnumerable<UniversalExtend> SelectList(Expression<Func<Establecimiento, bool>> predicate,
+        public async Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<Establecimiento, bool>> predicate,
             Expression<Func<Establecimiento, UniversalExtend>> source)
         {
-            return _establecimientoRepository.SelectList(predicate, source);
+            return await _establecimientoRepository.SelectList(predicate, source);
 
         }
 
-        public IEnumerable<UniversalExtend> ListaEstablecimientos(Expression<Func<Establecimiento,
+        public Task<IEnumerable<UniversalExtend>> ListaEstablecimientos(Expression<Func<Establecimiento,
             UniversalExtend>> source)
         {
-            var listaItem = SelectList(source).ToList();
-            listaItem.Insert(0, new UniversalExtend() { Id = -1, Descripcion = "<<<Seleccione>>>" });
-            return listaItem;
+            var listaItem = Task.Run(() => SelectList(source)).Result;
+            listaItem.ToList().Insert(0, new UniversalExtend() { Id = -1, Descripcion = "<<<Seleccione>>>" });
+            return (Task<IEnumerable<UniversalExtend>>)listaItem;
         }
 
-        public IEnumerable<UniversalExtend> ListaEstablecimientos(Expression<Func<Establecimiento, bool>> predicate,
+        public Task<IEnumerable<UniversalExtend>> ListaEstablecimientos(Expression<Func<Establecimiento, bool>> predicate,
             Expression<Func<Establecimiento, UniversalExtend>> source)
         {
-            var listaItem = SelectList(predicate, source).ToList();
-            listaItem.Insert(0, new UniversalExtend() { Id = -1, Descripcion = "<<<Seleccione>>>" });
-            return listaItem;
+            var listaItem = Task.Run(() => SelectList(predicate, source)).Result;
+            listaItem.ToList().Insert(0, new UniversalExtend() { Id = -1, Descripcion = "<<<Seleccione>>>" });
+            return (Task<IEnumerable<UniversalExtend>>)listaItem;
         }
 
-        public IEnumerable<UniversalExtend> ListaTodoEstablecimientos(Expression<Func<Establecimiento,
+        public Task<IEnumerable<UniversalExtend>> ListaTodoEstablecimientos(Expression<Func<Establecimiento,
             UniversalExtend>> source)
         {
-            var listaItem = SelectList(source).ToList();
-            listaItem.Insert(0, new UniversalExtend() { Id = -1, Descripcion = "<<<Todos>>>" });
-            return listaItem;
+            var listaItem = Task.Run(() => SelectList(source)).Result;
+            listaItem.ToList().Insert(0, new UniversalExtend() { Id = -1, Descripcion = "<<<Todos>>>" });
+            return (Task<IEnumerable<UniversalExtend>>)listaItem;
         }
 
-        public Establecimiento Single(Expression<Func<Establecimiento, bool>> predicate)
+        public async Task<Establecimiento> Single(Expression<Func<Establecimiento, bool>> predicate)
         {
-            return _establecimientoRepository.Single(predicate);
+            return await _establecimientoRepository.Single(predicate);
         }
 
-        public void Create(Establecimiento entity)
+        public async Task Create(Establecimiento entity)
         {
-            var result = _establecimientoValidator.Validate(entity);
-            if (!result.IsValid)
-                throw new CustomException(Validator.GetErrorMessages(result.Errors));
             if (entity.EstablecimientoId != default(int))
-                _establecimientoRepository.Update(entity);
+                await _establecimientoRepository.Update(entity);
             else
             {
-                bool exist = _establecimientoRepository.Exist(x => x.Nombre == entity.Nombre);
+                bool exist = await _establecimientoRepository.Exist(x => x.Nombre == entity.Nombre);
                 if (exist)
                     throw new CustomException("El Establecimiento que intenta registrar ya existe.");
-                _establecimientoRepository.Create(entity);
+                await _establecimientoRepository.Create(entity);
             }
         }
 
-        public void Delete(Expression<Func<Establecimiento, bool>> predicate)
+        public async Task Delete(Expression<Func<Establecimiento, bool>> predicate)
         {
-            _establecimientoRepository.Delete(predicate);
+            await _establecimientoRepository.Delete(predicate);
         }
     }
 }

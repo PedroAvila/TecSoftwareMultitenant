@@ -9,7 +9,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class ProductoRepository : BaseInquilinoRepository<Producto>, IProducto<Producto>
+    public class ProductoRepository : BaseBusinessRepository<Producto>, IProducto<Producto>
     {
         public async Task AsignarTarifaImpuestos(Producto producto, List<TasaImpuesto> tImpuestos)
         {

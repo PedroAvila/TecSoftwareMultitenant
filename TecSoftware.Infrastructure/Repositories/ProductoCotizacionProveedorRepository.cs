@@ -7,7 +7,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class ProductoCotizacionProveedorRepository : BaseInquilinoRepository<ProductoCotizacionProveedor>,
+    public class ProductoCotizacionProveedorRepository : BaseBusinessRepository<ProductoCotizacionProveedor>,
         IProductoCotizacionProveedor<ProductoCotizacionProveedor>
     {
         private readonly List<ProductoCotizacionProveedorExtend> _detalleItem = new List<ProductoCotizacionProveedorExtend>();

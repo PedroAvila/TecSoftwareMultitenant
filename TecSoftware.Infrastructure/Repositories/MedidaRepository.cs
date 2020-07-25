@@ -2,7 +2,7 @@
 
 namespace TecSoftware.Infrastructure
 {
-    public class MedidaRepository : BaseInquilinoRepository<Medida>
+    public class MedidaRepository : BaseBusinessRepository<Medida>
     {
     }
 }

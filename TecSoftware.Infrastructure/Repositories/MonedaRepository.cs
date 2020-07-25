@@ -2,7 +2,7 @@
 
 namespace TecSoftware.Infrastructure
 {
-    public class MonedaRepository : BaseInquilinoRepository<Moneda>
+    public class MonedaRepository : BaseBusinessRepository<Moneda>
     {
     }
 }

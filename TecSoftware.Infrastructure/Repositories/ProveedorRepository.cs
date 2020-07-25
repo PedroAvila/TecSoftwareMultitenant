@@ -4,7 +4,7 @@ using TecSoftware.EntidadesDominio;
 
 namespace TecSoftware.Infrastructure
 {
-    public class ProveedorRepository : BaseInquilinoRepository<Proveedor>, IProveedor<Proveedor>
+    public class ProveedorRepository : BaseBusinessRepository<Proveedor>, IProveedor<Proveedor>
     {
         private readonly List<Proveedor> _proveedorItem = new List<Proveedor>();
 

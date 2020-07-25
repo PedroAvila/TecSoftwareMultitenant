@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -11,9 +12,9 @@ namespace TecSoftware.Core
         private readonly DetalleOrdenVentaRepository _ventaRepository = new DetalleOrdenVentaRepository();
         private readonly ProductoRepository _productoRepository = new ProductoRepository();
 
-        public void Agregar(DetalleOrdenVentaExtend entity)
+        public async Task Agregar(DetalleOrdenVentaExtend entity)
         {
-            var producto = _productoRepository.Single(x => x.ProductoId == entity.ProductoId,
+            var producto = await _productoRepository.Single(x => x.ProductoId == entity.ProductoId,
                 new List<Expression<Func<Producto, object>>>() {
                     x=>x.Medida,
                     x => x.TasaImpuestos,
@@ -27,12 +28,12 @@ namespace TecSoftware.Core
                 if (producto.CalculoImportePorRangos)
                 {
                     context.SetStrategy(new CalculadoraPorRangos(producto));
-                    _ventaRepository.Agregar(context.SeleccionaProducto(producto, entity));
+                    _ventaRepository.Agregar(await context.SeleccionaProducto(producto, entity));
                 }
                 else
                 {
                     context.SetStrategy(new CalculadoraClasica(producto));
-                    _ventaRepository.Agregar(context.SeleccionaProducto(producto, entity));
+                    _ventaRepository.Agregar(await context.SeleccionaProducto(producto, entity));
                 }
                 entity.SumSubTotalIva = _ventaRepository.SumaSubTotal();
                 entity.SumValorIva = _ventaRepository.SumaIva();
@@ -85,25 +86,25 @@ namespace TecSoftware.Core
             _ventaRepository.Clean();
         }
 
-        public void Registrar(List<DetalleOrdenVenta> list)
+        public async Task Registrar(List<DetalleOrdenVenta> list)
         {
 
-            _ventaRepository.Registrar(list);
+            await _ventaRepository.Registrar(list);
         }
 
-        public List<DetalleOrdenVentaExtend> SearchXFolio(int folio)
+        public async Task<List<DetalleOrdenVentaExtend>> SearchXFolio(int folio)
         {
-            return _ventaRepository.SearchXFolio(folio);
+            return await _ventaRepository.SearchXFolio(folio);
         }
 
-        public IEnumerable<DetalleOrdenVentaExtend> BuscarDetalleOrdenVenta(int id)
+        public async Task<IEnumerable<DetalleOrdenVentaExtend>> BuscarDetalleOrdenVenta(int id)
         {
-            return _ventaRepository.BuscarDetalleOrdenVenta(id);
+            return await _ventaRepository.BuscarDetalleOrdenVenta(id);
         }
 
-        public void Delete(Expression<Func<DetalleOrdenVenta, bool>> predicate)
+        public async Task Delete(Expression<Func<DetalleOrdenVenta, bool>> predicate)
         {
-            _ventaRepository.Delete(predicate);
+            await _ventaRepository.Delete(predicate);
         }
 
         public DetalleOrdenVentaExtend AplicarDescuento(DetalleOrdenVentaExtend entity)
@@ -116,9 +117,9 @@ namespace TecSoftware.Core
         }
 
         DetalleOrdenVentaExtend _detalle;
-        public void ModificarCantidad(DetalleOrdenVentaExtend entity)
+        public async Task ModificarCantidad(DetalleOrdenVentaExtend entity)
         {
-            var producto = _productoRepository.Single(x => x.ProductoId == entity.ProductoId,
+            var producto = await _productoRepository.Single(x => x.ProductoId == entity.ProductoId,
                 new List<Expression<Func<Producto, object>>>() { x => x.TasaImpuestos, x => x.ProductoPrecios });
 
             if (producto != null)
@@ -128,12 +129,12 @@ namespace TecSoftware.Core
                 if (producto.CalculoImportePorRangos)
                 {
                     context.SetStrategy(new CalculadoraPorRangos(producto));
-                    _detalle = context.SeleccionaProducto(producto, entity);
+                    _detalle = await context.SeleccionaProducto(producto, entity);
                 }
                 else
                 {
                     context.SetStrategy(new CalculadoraClasica(producto));
-                    _detalle = context.SeleccionaProducto(producto, entity);
+                    _detalle = await context.SeleccionaProducto(producto, entity);
                 }
                 entity.ProductoPrecioId = _detalle.ProductoPrecioId;
                 entity.Precio = _detalle.Precio;

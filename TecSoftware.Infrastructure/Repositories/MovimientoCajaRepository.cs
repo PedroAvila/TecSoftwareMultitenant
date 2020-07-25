@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class MovimientoCajaRepository : BaseInquilinoRepository<MovimientoCaja>, IMovimientoCaja<MovimientoCaja>
+    public class MovimientoCajaRepository : BaseBusinessRepository<MovimientoCaja>, IMovimientoCaja<MovimientoCaja>
     {
         /// <summary>
         /// OperacionStatus es de tipo de dato OperacionCaja(enum)

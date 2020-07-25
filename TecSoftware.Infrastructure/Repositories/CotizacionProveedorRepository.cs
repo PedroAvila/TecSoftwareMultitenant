@@ -7,7 +7,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class CotizacionProveedorRepository : BaseInquilinoRepository<CotizacionProveedor>, ICotizacionProveedor<CotizacionProveedor>
+    public class CotizacionProveedorRepository : BaseBusinessRepository<CotizacionProveedor>, ICotizacionProveedor<CotizacionProveedor>
     {
         /// <summary>
         /// No lo etoy usando.

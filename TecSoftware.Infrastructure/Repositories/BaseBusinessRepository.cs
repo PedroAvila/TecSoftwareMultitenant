@@ -151,14 +151,26 @@ namespace TecSoftware.Infrastructure
         }
 
 
-        public Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<T, UniversalExtend>> source)
+        public async Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<T, UniversalExtend>> source)
         {
-            throw new NotImplementedException();
+            using (var context = new BusinessContext())
+            {
+                var result = await context.Set<T>().AsNoTracking()
+                    .Select(source).ToListAsync();
+                return result;
+            }
         }
 
-        public Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<T, bool>> predicate, Expression<Func<T, UniversalExtend>> source)
+        public async Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<T, bool>> predicate,
+            Expression<Func<T, UniversalExtend>> source)
         {
-            throw new NotImplementedException();
+            using (var context = new BusinessContext())
+            {
+                var result = await context.Set<T>()
+                    .Where(predicate)
+                    .Select(source).ToListAsync();
+                return result;
+            }
         }
 
     }

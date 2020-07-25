@@ -12,6 +12,7 @@ using System;
 using System.Text;
 using TecSoftware.Core;
 using TecSoftware.Infrastructure;
+using TecSoftware.Infrastructure.Data.Catalogo;
 
 namespace TecSoftware.Api
 {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using System.Transactions;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
-using TecSoftware.ServiciosDominio;
 
 namespace TecSoftware.Core
 {
@@ -29,7 +29,7 @@ namespace TecSoftware.Core
             return _ordenVentaRepository.CodigoNumerico();
         }
 
-        public void Create(OrdenVenta entity)
+        public async Task Create(OrdenVenta entity)
         {
             using (var scope = new TransactionScope())
             {
@@ -67,9 +67,9 @@ namespace TecSoftware.Core
             return _ordenVentaRepository.SelectOrdenesDeVenta(filter);
         }
 
-        public OrdenVenta Single(Expression<Func<OrdenVenta, bool>> predicate)
+        public async Task<OrdenVenta> Single(Expression<Func<OrdenVenta, bool>> predicate)
         {
-            return _ordenVentaRepository.Single(predicate);
+            return await _ordenVentaRepository.Single(predicate);
         }
 
     }

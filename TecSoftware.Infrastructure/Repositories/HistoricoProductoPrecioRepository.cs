@@ -2,7 +2,7 @@
 
 namespace TecSoftware.Infrastructure
 {
-    public class HistoricoProductoPrecioRepository : BaseInquilinoRepository<HistoricoProductoPrecio>
+    public class HistoricoProductoPrecioRepository : BaseBusinessRepository<HistoricoProductoPrecio>
     {
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -24,7 +25,7 @@ namespace TecSoftware.Core
             _strategy = strategy;
         }
 
-        public DetalleOrdenVentaExtend SeleccionaProducto(Producto producto, DetalleOrdenVentaExtend detalle)
+        public async Task<DetalleOrdenVentaExtend> SeleccionaProducto(Producto producto, DetalleOrdenVentaExtend detalle)
         {
             //El método me debe de devolver un item(entidad) para agregarlo a una lista 
             //Y cargar el DGV
@@ -34,7 +35,7 @@ namespace TecSoftware.Core
             {
                 //Obtengo el Id de la Presentación y la abreviación para mostrarlo en el asistente de venta
                 //Y en el form donde se factura.
-                var _producto = _productoRepository.Single(x => x.ProductoId == producto.ProductoId,
+                var _producto = await _productoRepository.Single(x => x.ProductoId == producto.ProductoId,
                     new List<Expression<Func<Producto, object>>> {
                         x=>x.Presentacion
                     });
@@ -66,7 +67,7 @@ namespace TecSoftware.Core
                                 detalle.SubTotalIva = importe;
                                 detalle.ValorIva = importe * (detalle.Iva / 100);
                             }
-                            if (producto.IncluyeImpuesto == IncluyeImpuestoType.Si)
+                            if (producto.IncluyeImpuesto == IncluyeImpuesto.Si)
                             {
                                 if (p != null)
                                 {

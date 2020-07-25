@@ -1,4 +1,5 @@
-﻿using TecSoftware.EntidadesDominio;
+﻿using System.Threading.Tasks;
+using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
@@ -7,9 +8,9 @@ namespace TecSoftware.Core
     {
         private readonly ImpuestoVentaRepository _impuestoVentaRepository = new ImpuestoVentaRepository();
 
-        public void Create(ImpuestoVenta entity)
+        public async Task Create(ImpuestoVenta entity)
         {
-            _impuestoVentaRepository.Create(entity);
+            await _impuestoVentaRepository.Create(entity);
         }
     }
 }

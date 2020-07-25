@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using TecSoftware.BusinessException;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -11,43 +13,39 @@ namespace TecSoftware.Core
     {
         private readonly AreaNegocioRepository _areaNegocioRepository = new AreaNegocioRepository();
 
-
-        public IEnumerable<UniversalExtend> SelectList(Expression<Func<AreaNegocio, UniversalExtend>> source)
+        public async Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<AreaNegocio, UniversalExtend>> source)
         {
-            return _areaNegocioRepository.SelectList(source).ToList();
+            return await _areaNegocioRepository.SelectList(source);
         }
 
-        public IEnumerable<UniversalExtend> ListaAreaNegocio(Expression<Func<AreaNegocio, UniversalExtend>> source)
+        public Task<IEnumerable<UniversalExtend>> ListaAreaNegocio(Expression<Func<AreaNegocio, UniversalExtend>> source)
         {
-            var listaItem = SelectList(source).ToList();
-            listaItem.Insert(0, new UniversalExtend() { Id = -1, Descripcion = "<<<Seleccione>>>" });
-            return listaItem;
+            var listaItem = Task.Run(() => SelectList(source)).Result;
+            listaItem.ToList().Insert(0, new UniversalExtend() { Id = -1, Descripcion = "<<<Seleccione>>>" });
+            return (Task<IEnumerable<UniversalExtend>>)listaItem;
         }
 
-        public AreaNegocio Single(Expression<Func<AreaNegocio, bool>> predicate)
+        public async Task<AreaNegocio> Single(Expression<Func<AreaNegocio, bool>> predicate)
         {
-            return _areaNegocioRepository.Single(predicate);
+            return await _areaNegocioRepository.Single(predicate);
         }
 
-        public void Create(AreaNegocio entity)
+        public async Task Create(AreaNegocio entity)
         {
-            var result = _areaNegocioValidator.Validate(entity);
-            if (!result.IsValid)
-                throw new CustomException(Validator.GetErrorMessages(result.Errors));
             if (entity.AreaNegocioId != default)
-                _areaNegocioRepository.Update(entity);
+                await _areaNegocioRepository.Update(entity);
             else
             {
-                bool exist = _areaNegocioRepository.Exist(x => x.Nombre == entity.Nombre);
+                bool exist = await _areaNegocioRepository.Exist(x => x.Nombre == entity.Nombre);
                 if (exist)
                     throw new CustomException("El Área de negocio que intenta registrar ya existe.");
-                _areaNegocioRepository.Create(entity);
+                await _areaNegocioRepository.Create(entity);
             }
         }
 
-        public void Delete(Expression<Func<AreaNegocio, bool>> predicate)
+        public async Task Delete(Expression<Func<AreaNegocio, bool>> predicate)
         {
-            _areaNegocioRepository.Delete(predicate);
+            await _areaNegocioRepository.Delete(predicate);
         }
     }
 }

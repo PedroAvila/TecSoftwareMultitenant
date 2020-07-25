@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using TecSoftware.BusinessException;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -15,25 +17,25 @@ namespace TecSoftware.Core
         /// Al formulario de venta.
         /// </summary>
         /// <param name="entity"></param>
-        public void Create(MovimientoCaja entity)
+        public async Task Create(MovimientoCaja entity)
         {
             //Informa si esta aperurada la caja
-            bool exist = _movimientoCajaRepository.ExisteMonto(entity.OperacionId);
+            bool exist = await _movimientoCajaRepository.ExisteMonto(entity.OperacionId);
 
             if (exist && MovimientoCajaType.Ingreso == entity.TipoMovimiento && entity.ComprobantePagoId == null)
                 throw new CustomException("Ya se aperturo caja.");
 
             if (MovimientoCajaType.Ingreso == entity.TipoMovimiento)
-                _movimientoCajaRepository.Create(entity);
+                await _movimientoCajaRepository.Create(entity);
             if (MovimientoCajaType.Gasto == entity.TipoMovimiento)
             {
-                var ingreso = _movimientoCajaRepository.SumIngreso(entity.OperacionId);
+                var ingreso = await _movimientoCajaRepository.SumIngreso(entity.OperacionId);
                 if (entity.MovimientoCajaId != default(int))
-                    _movimientoCajaRepository.Update(entity);
+                    await _movimientoCajaRepository.Update(entity);
                 else
                 {
                     if (ingreso >= entity.Egreso)
-                        _movimientoCajaRepository.Create(entity);
+                        await _movimientoCajaRepository.Create(entity);
                     else
                         throw new CustomException("El egreso supera al total de ingresos");
                 }
@@ -41,9 +43,9 @@ namespace TecSoftware.Core
             if (MovimientoCajaType.Devolucion == entity.TipoMovimiento)
             {
                 if (entity.MovimientoCajaId != default(int))
-                    _movimientoCajaRepository.Update(entity);
+                    await _movimientoCajaRepository.Update(entity);
                 else
-                    _movimientoCajaRepository.Create(entity);
+                    await _movimientoCajaRepository.Create(entity);
             }
         }
 
@@ -52,9 +54,9 @@ namespace TecSoftware.Core
         /// </summary>
         /// <param name="puntoEmision">PuntoEmision</param>
         /// <returns></returns>
-        public IEnumerable<MovimientoCaja> PoolMontos(int puntoEmision)
+        public async Task<IEnumerable<MovimientoCaja>> PoolMontos(int puntoEmision)
         {
-            return _movimientoCajaRepository.PoolMontos(puntoEmision);
+            return await _movimientoCajaRepository.PoolMontos(puntoEmision);
         }
 
         /// <summary>
@@ -62,65 +64,64 @@ namespace TecSoftware.Core
         /// </summary>
         /// <param name="operacion">Operación</param>
         /// <returns></returns>
-        public decimal MontoInicial(int operacion)
+        public async Task<decimal> MontoInicial(int operacion)
         {
-            return _movimientoCajaRepository.MontoInicial(operacion);
+            return await _movimientoCajaRepository.MontoInicial(operacion);
         }
 
-        public decimal MontoInicialXAno(int ano, int puntoEmision)
+        public async Task<decimal> MontoInicialXAno(int ano, int puntoEmision)
         {
-            return _movimientoCajaRepository.MontoInicialXAno(ano, puntoEmision);
+            return await _movimientoCajaRepository.MontoInicialXAno(ano, puntoEmision);
         }
 
-        public decimal SumIngreso(int operacion)
+        public async Task<decimal> SumIngreso(int operacion)
         {
-            return _movimientoCajaRepository.SumIngreso(operacion);
+            return await _movimientoCajaRepository.SumIngreso(operacion);
         }
 
-        public decimal SumGastos(DateTime fecha, int puntoEmision)
+        public async Task<decimal> SumGastos(DateTime fecha, int puntoEmision)
         {
-            return _movimientoCajaRepository.SumGastos(fecha, puntoEmision);
+            return await _movimientoCajaRepository.SumGastos(fecha, puntoEmision);
         }
 
-        public decimal SumDevolucion(DateTime fecha, int puntoEmision)
+        public async Task<decimal> SumDevolucion(DateTime fecha, int puntoEmision)
         {
-            return _movimientoCajaRepository.SumDevolucion(fecha, puntoEmision);
+            return await _movimientoCajaRepository.SumDevolucion(fecha, puntoEmision);
         }
 
-        public decimal SumIngresoTotal(DateTime fecha, int puntoEmision)
+        //public decimal SumIngresoTotal(DateTime fecha, int puntoEmision)
+        //{
+        //    return SumIngreso(fecha) + SumDevolucion(fecha, puntoEmision);
+        //}
+
+        //public async Task<decimal> Saldo(DateTime fecha, int puntoEmision)
+        //{
+        //    return await SumIngresoTotal(fecha, puntoEmision) - SumGastos(fecha, puntoEmision);
+        //}
+
+        public async Task<IEnumerable<UniversalExtend>> ListarIngreso(int puntoEmision)
         {
-            //return SumIngreso(fecha) + SumDevolucion(fecha, puntoEmision);
-            throw new NotImplementedException();
+            return await _movimientoCajaRepository.ListarIngreso(puntoEmision);
         }
 
-        public decimal Saldo(DateTime fecha, int puntoEmision)
+        public async Task<IEnumerable<UniversalExtend>> ListarEgreso(int puntoEmision)
         {
-            return SumIngresoTotal(fecha, puntoEmision) - SumGastos(fecha, puntoEmision);
+            return await _movimientoCajaRepository.ListarEgreso(puntoEmision);
         }
 
-        public IEnumerable<UniversalExtend> ListarIngreso(int puntoEmision)
+        public async Task<IEnumerable<UniversalExtend>> ListarDevolucion(int puntoEmision)
         {
-            return _movimientoCajaRepository.ListarIngreso(puntoEmision);
+            return await _movimientoCajaRepository.ListarDevolucion(puntoEmision);
         }
 
-        public IEnumerable<UniversalExtend> ListarEgreso(int puntoEmision)
+        public async Task<MovimientoCaja> Single(Expression<Func<MovimientoCaja, bool>> predicate)
         {
-            return _movimientoCajaRepository.ListarEgreso(puntoEmision);
+            return await _movimientoCajaRepository.Single(predicate);
         }
 
-        public IEnumerable<UniversalExtend> ListarDevolucion(int puntoEmision)
+        public async Task<bool> ExisteMonto(int puntoEmision)
         {
-            return _movimientoCajaRepository.ListarDevolucion(puntoEmision);
-        }
-
-        public MovimientoCaja Single(Expression<Func<MovimientoCaja, bool>> predicate)
-        {
-            return _movimientoCajaRepository.Single(predicate);
-        }
-
-        public bool ExisteMonto(int puntoEmision)
-        {
-            return _movimientoCajaRepository.ExisteMonto(puntoEmision);
+            return await _movimientoCajaRepository.ExisteMonto(puntoEmision);
         }
 
         /// <summary>
@@ -129,9 +130,9 @@ namespace TecSoftware.Core
         /// </summary>
         /// <param name="puntoEmision">PuntoEmision</param>
         /// <returns></returns>
-        public bool AperturoCaja(int puntoEmision)
+        public async Task<bool> AperturoCaja(int puntoEmision)
         {
-            return _movimientoCajaRepository.AperturoCaja(puntoEmision);
+            return await _movimientoCajaRepository.AperturoCaja(puntoEmision);
         }
     }
 }

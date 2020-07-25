@@ -2,7 +2,7 @@
 
 namespace TecSoftware.Infrastructure
 {
-    public class RegistroInventarioRepository : BaseInquilinoRepository<RegistroInventario>
+    public class RegistroInventarioRepository : BaseBusinessRepository<RegistroInventario>
     {
     }
 }

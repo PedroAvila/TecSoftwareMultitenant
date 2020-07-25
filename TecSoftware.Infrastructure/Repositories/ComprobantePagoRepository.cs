@@ -12,7 +12,7 @@ namespace TecSoftware.Infrastructure
     /// <summary>
     /// En esta clase tengo implementado DbEntityValidationExepcionErrors
     /// </summary>
-    public class ComprobantePagoRepository : BaseInquilinoRepository<ComprobantePago>, IComprobantePago<ComprobantePago>
+    public class ComprobantePagoRepository : BaseBusinessRepository<ComprobantePago>, IComprobantePago<ComprobantePago>
     {
         public async Task Registrar(ComprobantePago entity)
         {

@@ -7,7 +7,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class ProductoOrdenInventarioRepository : BaseInquilinoRepository<ProductoOrdenInventario>,
+    public class ProductoOrdenInventarioRepository : BaseBusinessRepository<ProductoOrdenInventario>,
         IProductoOrdenInventario<ProductoOrdenInventario>
     {
         public async Task<IEnumerable<ProductoOrdenInventarioExtend>> ListaProductoOrdenInventario(int id)

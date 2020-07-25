@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -27,10 +28,10 @@ namespace TecSoftware.Core
             return _productoRepository.Single(predicate);
         }
 
-        public Producto Single(Expression<Func<Producto, bool>> predicate,
+        public async Task<Producto> Single(Expression<Func<Producto, bool>> predicate,
             List<Expression<Func<Producto, object>>> includes)
         {
-            return _productoRepository.Single(predicate, includes);
+            return await _productoRepository.Single(predicate, includes);
         }
 
         public ProductoExtend BuscarXCodigo(string valor)

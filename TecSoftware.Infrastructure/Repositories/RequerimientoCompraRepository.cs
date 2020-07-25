@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class RequerimientoCompraRepository : BaseInquilinoRepository<RequerimientoCompra>,
+    public class RequerimientoCompraRepository : BaseBusinessRepository<RequerimientoCompra>,
         IRequerimientoCompra<RequerimientoCompra>
     {
         public async Task<string> GenerarCodigo()

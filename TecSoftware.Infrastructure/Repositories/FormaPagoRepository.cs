@@ -2,7 +2,7 @@
 
 namespace TecSoftware.Infrastructure
 {
-    public class FormaPagoRepository : BaseInquilinoRepository<FormaPago>
+    public class FormaPagoRepository : BaseBusinessRepository<FormaPago>
     {
     }
 }

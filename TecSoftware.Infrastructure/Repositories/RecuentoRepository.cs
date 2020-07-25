@@ -7,7 +7,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class RecuentoRepository : BaseInquilinoRepository<Recuento>, IRecuento<Recuento>
+    public class RecuentoRepository : BaseBusinessRepository<Recuento>, IRecuento<Recuento>
     {
         public async Task<IEnumerable<CierreCajaExtend>> MostrarCierreCaja(int operacion, int puntoEmision)
         {

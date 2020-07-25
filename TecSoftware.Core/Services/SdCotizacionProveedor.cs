@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -8,10 +9,10 @@ namespace TecSoftware.Core
     {
         private readonly CotizacionProveedorRepository _cotizacionProveedorRepository = new CotizacionProveedorRepository();
 
-        public void Create(CotizacionProveedor entity)
+        public async Task Create(CotizacionProveedor entity)
         {
-            entity.NumeroCotizacion = _cotizacionProveedorRepository.GenerarCodigo();
-            _cotizacionProveedorRepository.Create(entity);
+            entity.NumeroCotizacion = await _cotizacionProveedorRepository.GenerarCodigo();
+            await _cotizacionProveedorRepository.Create(entity);
         }
 
         public DataSet CotizacionProveedor()
