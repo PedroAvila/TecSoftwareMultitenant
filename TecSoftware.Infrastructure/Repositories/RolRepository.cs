@@ -7,7 +7,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class RolRepository : BaseRepository<Rol>, IRol<Rol>
+    public class RolRepository : BaseInquilinoRepository<Rol>, IRol<Rol>
     {
         public async Task AsignarFunciones(Rol rol, List<Funcion> funciones) // IRol<Rol>
         {

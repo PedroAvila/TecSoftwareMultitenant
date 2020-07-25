@@ -2,7 +2,7 @@
 
 namespace TecSoftware.Infrastructure
 {
-    public class AreaNegocioRepository : BaseRepository<AreaNegocio>
+    public class AreaNegocioRepository : BaseInquilinoRepository<AreaNegocio>
     {
     }
 }

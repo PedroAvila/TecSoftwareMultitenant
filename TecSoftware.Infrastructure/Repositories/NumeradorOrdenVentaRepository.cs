@@ -7,7 +7,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class NumeradorOrdenVentaRepository : BaseRepository<NumeradorOrdenVenta>, INumeradorOrdenVenta<NumeradorOrdenVenta>
+    public class NumeradorOrdenVentaRepository : BaseInquilinoRepository<NumeradorOrdenVenta>, INumeradorOrdenVenta<NumeradorOrdenVenta>
     {
         public async Task<string> NumeroSecuencial(int puntoEmision) //INumeradorOrdenVenta<NumeradorOrdenVenta>
         {

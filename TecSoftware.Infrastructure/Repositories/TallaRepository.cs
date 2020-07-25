@@ -4,7 +4,7 @@ using TecSoftware.EntidadesDominio;
 
 namespace TecSoftware.Infrastructure
 {
-    public class TallaRepository : BaseRepository<Talla>, ITalla<Talla>
+    public class TallaRepository : BaseInquilinoRepository<Talla>, ITalla<Talla>
     {
         private readonly List<Talla> _tallaItem = new List<Talla>();
 

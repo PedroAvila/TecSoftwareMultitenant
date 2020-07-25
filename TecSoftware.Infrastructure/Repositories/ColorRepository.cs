@@ -4,7 +4,7 @@ using TecSoftware.EntidadesDominio;
 
 namespace TecSoftware.Infrastructure
 {
-    public class ColorRepository : BaseRepository<Colour>, IColor<Colour>
+    public class ColorRepository : BaseInquilinoRepository<Colour>, IColor<Colour>
     {
         private readonly List<Colour> _colorItem = new List<Colour>();
 

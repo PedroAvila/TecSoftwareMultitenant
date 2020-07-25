@@ -6,7 +6,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class MovimientoInventarioRepository : BaseRepository<MovimientoInventario>, IMovimientoInventario<MovimientoInventario>
+    public class MovimientoInventarioRepository : BaseInquilinoRepository<MovimientoInventario>, IMovimientoInventario<MovimientoInventario>
     {
         public Task<decimal> ObtenerCantidadSaldoFinal(int producto)
         {

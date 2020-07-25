@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class OrdenVentaRepository : BaseRepository<OrdenVenta>, IOrdenVenta<OrdenVenta>
+    public class OrdenVentaRepository : BaseInquilinoRepository<OrdenVenta>, IOrdenVenta<OrdenVenta>
     {
         public async Task Registrar(OrdenVenta entity) //IOrdenVenta<OrdenVenta>
         {

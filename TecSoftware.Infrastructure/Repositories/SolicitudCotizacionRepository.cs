@@ -9,7 +9,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Persistencia
 {
-    public class SolicitudCotizacionRepository : BaseRepository<SolicitudCotizacion>, ISolicitudCotizacion<SolicitudCotizacion>
+    public class SolicitudCotizacionRepository : BaseInquilinoRepository<SolicitudCotizacion>, ISolicitudCotizacion<SolicitudCotizacion>
     {
         public async Task<string> GenerarCodigo()
         {

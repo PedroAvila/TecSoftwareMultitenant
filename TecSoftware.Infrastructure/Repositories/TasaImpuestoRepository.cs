@@ -4,7 +4,7 @@ using TecSoftware.EntidadesDominio;
 
 namespace TecSoftware.Infrastructure
 {
-    public class TasaImpuestoRepository : BaseRepository<TasaImpuesto>, ITasaImpuesto<TasaImpuesto>
+    public class TasaImpuestoRepository : BaseInquilinoRepository<TasaImpuesto>, ITasaImpuesto<TasaImpuesto>
     {
         private readonly List<TasaImpuesto> _tasaImpuestoItem = new List<TasaImpuesto>();
 

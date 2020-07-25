@@ -7,7 +7,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class ClienteRepository : BaseRepository<Cliente>, ICliente<Cliente>
+    public class ClienteRepository : BaseInquilinoRepository<Cliente>, ICliente<Cliente>
     {
         public async Task<IEnumerable<UniversalExtend>> ListaClienteXCodigo(Criteria filter)
         {

@@ -6,7 +6,7 @@ using TecSoftware.EntidadesDominio;
 
 namespace TecSoftware.Infrastructure
 {
-    public interface IRepository<T> where T : class
+    public interface IBusinessRepository<T> where T : class
     {
         IEnumerable<T> GetAll();
         IEnumerable<T> GetAll(List<Expression<Func<T, object>>> includes);

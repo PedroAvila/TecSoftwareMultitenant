@@ -2,7 +2,7 @@
 
 namespace TecSoftware.Infrastructure
 {
-    public class SubCategoriaRepository : BaseRepository<SubCategoria>
+    public class SubCategoriaRepository : BaseInquilinoRepository<SubCategoria>
     {
     }
 }

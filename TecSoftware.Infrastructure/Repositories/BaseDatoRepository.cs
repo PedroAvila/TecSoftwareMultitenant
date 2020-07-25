@@ -7,7 +7,7 @@ using TecSoftware.Infrastructure.Data.Catalogo;
 
 namespace TecSoftware.Infrastructure
 {
-    public class BaseDatoRepository : BaseRepository<BaseDato>, IBaseDato<BaseDato>
+    public class BaseDatoRepository : BaseInquilinoRepository<BaseDato>, IBaseDato<BaseDato>
     {
         public async Task<IEnumerable<string>> GetAll(string nameTenan)
         {

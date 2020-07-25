@@ -6,7 +6,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class UsuarioRepository : BaseRepository<Usuario>, IUsuario<Usuario>
+    public class UsuarioRepository : BaseInquilinoRepository<Usuario>, IUsuario<Usuario>
     {
         public async Task<bool> Autentificar(Usuario entity)
         {

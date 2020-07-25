@@ -10,7 +10,7 @@ namespace TecSoftware.Core
     public class SdAreaNegocio
     {
         private readonly AreaNegocioRepository _areaNegocioRepository = new AreaNegocioRepository();
-        private readonly AreaNegocioValidator _areaNegocioValidator = new AreaNegocioValidator();
+
 
         public IEnumerable<UniversalExtend> SelectList(Expression<Func<AreaNegocio, UniversalExtend>> source)
         {

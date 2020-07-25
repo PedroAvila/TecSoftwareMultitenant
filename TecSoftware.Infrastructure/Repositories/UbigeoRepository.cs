@@ -2,7 +2,7 @@
 
 namespace TecSoftware.Infrastructure
 {
-    public class UbigeoRepository : BaseRepository<Ubigeo>
+    public class UbigeoRepository : BaseInquilinoRepository<Ubigeo>
     {
     }
 }

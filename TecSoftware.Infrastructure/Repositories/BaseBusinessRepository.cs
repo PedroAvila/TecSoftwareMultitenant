@@ -5,15 +5,15 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
-using TecSoftware.Infrastructure.Data.Catalogo;
+using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class BaseRepository<T> : IRepository<T> where T : class
+    public class BaseBusinessRepository<T> : IBusinessRepository<T> where T : class
     {
         public IEnumerable<T> GetAll()
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 return context.Set<T>().ToList();
             }
@@ -32,7 +32,7 @@ namespace TecSoftware.Infrastructure
                 includelist.Add(body.Member.Name);
             }
 
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 IQueryable<T> query = context.Set<T>();
                 includelist.ForEach(x => query = query.Include(x));
@@ -42,7 +42,7 @@ namespace TecSoftware.Infrastructure
 
         public IEnumerable<T> Filter(Expression<Func<T, bool>> predicate)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 return context.Set<T>().Where(predicate).ToList();
             }
@@ -61,7 +61,7 @@ namespace TecSoftware.Infrastructure
                 includelist.Add(body.Member.Name);
             }
 
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 IQueryable<T> query = context.Set<T>();
 
@@ -73,7 +73,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<T> Single(Expression<Func<T, bool>> predicate)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 return await context.Set<T>().FirstOrDefaultAsync(predicate);
             }
@@ -92,7 +92,7 @@ namespace TecSoftware.Infrastructure
                 includelist.Add(body.Member.Name);
             }
 
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 IQueryable<T> query = context.Set<T>();
                 includelist.ForEach(x => query = query.Include(x));
@@ -107,7 +107,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<bool> Exist(Expression<Func<T, bool>> predicate)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 return await context.Set<T>().AnyAsync(predicate);
             }
@@ -115,7 +115,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task Create(T entity)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 context.Set<T>().Add(entity);
                 await context.SaveChangesAsync();
@@ -124,7 +124,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task Update(T entity)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 context.Entry(entity).State = EntityState.Modified;
                 await context.SaveChangesAsync();
@@ -133,7 +133,7 @@ namespace TecSoftware.Infrastructure
 
         public void Delete(T entity)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 context.Entry(entity).State = EntityState.Deleted;
                 context.SaveChanges();
@@ -142,7 +142,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task Delete(Expression<Func<T, bool>> predicate)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new BusinessContext())
             {
                 var entities = context.Set<T>().Where(predicate).ToList();
                 entities.ForEach(x => context.Entry(x).State = EntityState.Deleted);
@@ -150,15 +150,16 @@ namespace TecSoftware.Infrastructure
             }
         }
 
+
         public Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<T, UniversalExtend>> source)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<T, bool>> predicate,
-            Expression<Func<T, UniversalExtend>> source)
+        public Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<T, bool>> predicate, Expression<Func<T, UniversalExtend>> source)
         {
             throw new NotImplementedException();
         }
+
     }
 }

@@ -2,7 +2,7 @@
 
 namespace TecSoftware.Infrastructure
 {
-    public class ImpuestoRepository : BaseRepository<Impuesto>
+    public class ImpuestoRepository : BaseInquilinoRepository<Impuesto>
     {
     }
 }

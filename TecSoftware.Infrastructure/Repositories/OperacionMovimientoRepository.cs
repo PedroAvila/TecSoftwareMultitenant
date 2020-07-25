@@ -5,7 +5,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class OperacionMovimientoRepository : BaseRepository<OperacionMovimiento>, IOperacionMovimiento<OperacionMovimiento>
+    public class OperacionMovimientoRepository : BaseInquilinoRepository<OperacionMovimiento>, IOperacionMovimiento<OperacionMovimiento>
     {
         public async Task Registrar(OperacionMovimiento entity) //IOperacionMovimiento<OperacionMovimiento>
         {

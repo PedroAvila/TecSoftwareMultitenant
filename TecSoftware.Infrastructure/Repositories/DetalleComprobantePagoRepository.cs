@@ -5,7 +5,7 @@ using TecSoftware.EntidadesDominio;
 
 namespace TecSoftware.Infrastructure
 {
-    public class DetalleComprobantePagoRepository : BaseRepository<DetalleComprobantePago>, IDetalleComprobantePago<DetalleComprobantePago>
+    public class DetalleComprobantePagoRepository : BaseInquilinoRepository<DetalleComprobantePago>, IDetalleComprobantePago<DetalleComprobantePago>
     {
         private readonly List<DetalleComprobantePagoExtend> _comprobanteItem = new List<DetalleComprobantePagoExtend>();
         public List<DetalleComprobantePagoExtend> DetalleItemTemp => _comprobanteItem.ToList(); //IDetalleComprobantePago<DetalleComprobantePago>

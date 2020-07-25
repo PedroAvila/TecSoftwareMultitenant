@@ -50,7 +50,7 @@ namespace TecSoftware.Api
             services.AddTransient<ISdUsuario, SdUsuario>();
             //services.AddTransient<IService, Service>();
 
-            services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+            services.AddScoped(typeof(IInquilinoRepository<>), typeof(BaseInquilinoRepository<>));
 
             services.AddHttpContextAccessor();
             services.AddSingleton(new Startup(Configuration));

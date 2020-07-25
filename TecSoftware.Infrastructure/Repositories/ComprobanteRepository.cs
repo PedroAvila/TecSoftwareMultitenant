@@ -7,7 +7,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class ComprobanteRepository : BaseRepository<Comprobante>, IComprobante<Comprobante>
+    public class ComprobanteRepository : BaseInquilinoRepository<Comprobante>, IComprobante<Comprobante>
     {
         public async Task AsignarIdentificaciones(Comprobante comprobante, List<TipoIdentificacion> identificaciones)
         {

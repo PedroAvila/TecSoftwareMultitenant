@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure.Data.Business;
 
 namespace TecSoftware.Infrastructure
 {
-    public class OrdenInventarioRepository : BaseRepository<OrdenInventario>, IOrdenInventario<OrdenInventario>
+    public class OrdenInventarioRepository : BaseInquilinoRepository<OrdenInventario>, IOrdenInventario<OrdenInventario>
     {
         public async Task<string> GenerarCodigo() //IOrdenInventario<OrdenInventario>
         {
