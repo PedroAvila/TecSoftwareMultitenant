@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using TecSoftware.BusinessException;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -9,11 +11,11 @@ namespace TecSoftware.Core
     public class SdTasaImpuesto
     {
         private readonly TasaImpuestoRepository _tarifaImpuestoRepository = new TasaImpuestoRepository();
-        private readonly TasaImpuestoValidator _tarifaImpuestoValidator = new TasaImpuestoValidator();
 
-        public IEnumerable<UniversalExtend> SelectList(Expression<Func<TasaImpuesto, UniversalExtend>> source)
+
+        public async Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<TasaImpuesto, UniversalExtend>> source)
         {
-            return _tarifaImpuestoRepository.SelectList(source);
+            return await _tarifaImpuestoRepository.SelectList(source);
         }
 
         public List<TasaImpuesto> MostrarTasaImpuestos()
@@ -31,36 +33,33 @@ namespace TecSoftware.Core
             _tarifaImpuestoRepository.CleanTasaImpuesto();
         }
 
-        public IEnumerable<UniversalExtend> SelectList(Expression<Func<TasaImpuesto, bool>> predicate,
+        public async Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<TasaImpuesto, bool>> predicate,
             Expression<Func<TasaImpuesto, UniversalExtend>> source)
         {
-            return _tarifaImpuestoRepository.SelectList(predicate, source);
+            return await _tarifaImpuestoRepository.SelectList(predicate, source);
         }
 
-        public TasaImpuesto Single(Expression<Func<TasaImpuesto, bool>> predicate)
+        public async Task<TasaImpuesto> Single(Expression<Func<TasaImpuesto, bool>> predicate)
         {
-            return _tarifaImpuestoRepository.Single(predicate);
+            return await _tarifaImpuestoRepository.Single(predicate);
         }
 
-        public void Create(TasaImpuesto entity)
+        public async Task Create(TasaImpuesto entity)
         {
-            var result = _tarifaImpuestoValidator.Validate(entity);
-            if (!result.IsValid)
-                throw new CustomException(Validator.GetErrorMessages(result.Errors));
             if (entity.TasaImpuestoId != default(int))
-                _tarifaImpuestoRepository.Update(entity);
+                await _tarifaImpuestoRepository.Update(entity);
             else
             {
-                bool exist = _tarifaImpuestoRepository.Exist(x => x.Concepto == entity.Concepto);
+                bool exist = await _tarifaImpuestoRepository.Exist(x => x.Concepto == entity.Concepto);
                 if (exist)
                     throw new CustomException("El concepto que intenta registrar ya existe.");
-                _tarifaImpuestoRepository.Create(entity);
+                await _tarifaImpuestoRepository.Create(entity);
             }
         }
 
-        public void Delete(Expression<Func<TasaImpuesto, bool>> predicate)
+        public async Task Delete(Expression<Func<TasaImpuesto, bool>> predicate)
         {
-            _tarifaImpuestoRepository.Delete(predicate);
+            await _tarifaImpuestoRepository.Delete(predicate);
         }
     }
 }

@@ -7,5 +7,6 @@ namespace TecSoftware.Infrastructure
     {
         Task UpdateUser(T entity);
         Task<bool> Autentificar(Usuario entity);
+        Task UpdatePassword(Usuario entity);
     }
 }

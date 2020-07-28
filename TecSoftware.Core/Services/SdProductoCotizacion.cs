@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using TecSoftware.BusinessException;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -9,42 +11,39 @@ namespace TecSoftware.Core
     public class SdProductoCotizacion
     {
         private readonly ProductoCotizacionRepository _productoCotizacionRepository = new ProductoCotizacionRepository();
-        private readonly ProductoCotizacionValidator _productoCotizacionValidator = new ProductoCotizacionValidator();
 
-        public ProductoCotizacion Single(Expression<Func<ProductoCotizacion, bool>> predicate)
+        public async Task<ProductoCotizacion> Single(Expression<Func<ProductoCotizacion, bool>> predicate)
         {
-            return _productoCotizacionRepository.Single(predicate);
+            return await _productoCotizacionRepository.Single(predicate);
         }
 
-        public void Create(ProductoCotizacion entity)
+        public async Task Create(ProductoCotizacion entity)
         {
-            var result = _productoCotizacionValidator.Validate(entity);
-            if (!result.IsValid)
-                throw new CustomException(Validator.GetErrorMessages(result.Errors));
+
             if (entity.ProductoCotizacionId != default)
-                _productoCotizacionRepository.Update(entity);
+                await _productoCotizacionRepository.Update(entity);
             else
             {
-                bool exist = _productoCotizacionRepository.Exist(x => x.ProductoCotizacionId == entity.ProductoCotizacionId);
+                bool exist = await _productoCotizacionRepository.Exist(x => x.ProductoCotizacionId == entity.ProductoCotizacionId);
                 if (exist)
                     throw new CustomException("El Producto de Cotización que intenta registrar ya existe.");
-                _productoCotizacionRepository.Create(entity);
+                await _productoCotizacionRepository.Create(entity);
             }
         }
 
-        public void Delete(Expression<Func<ProductoCotizacion, bool>> predicate)
+        public async Task Delete(Expression<Func<ProductoCotizacion, bool>> predicate)
         {
-            _productoCotizacionRepository.Delete(predicate);
+            await _productoCotizacionRepository.Delete(predicate);
         }
 
-        public IEnumerable<ProductoCotizacionExtend> ListaProductoCotizacion(int id)
+        public async Task<IEnumerable<ProductoCotizacionExtend>> ListaProductoCotizacion(int id)
         {
-            return _productoCotizacionRepository.ListaProductoCotizacion(id);
+            return await _productoCotizacionRepository.ListaProductoCotizacion(id);
         }
 
-        public int ObtenerIdProductoCotizacion(string numeroCotizacion, int productoId)
+        public async Task<int> ObtenerIdProductoCotizacion(string numeroCotizacion, int productoId)
         {
-            return _productoCotizacionRepository.ObtenerIdProductoCotizacion(numeroCotizacion, productoId);
+            return await _productoCotizacionRepository.ObtenerIdProductoCotizacion(numeroCotizacion, productoId);
         }
     }
 }

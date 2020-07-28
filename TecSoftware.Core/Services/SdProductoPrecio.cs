@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using TecSoftware.BusinessException;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -9,7 +11,7 @@ namespace TecSoftware.Core
     public class SdProductoPrecio
     {
         private readonly ProductoPrecioRepository _productoPrecioRepository = new ProductoPrecioRepository();
-        private readonly ProductoPrecioValidator _productoPrecioValidator = new ProductoPrecioValidator();
+
         private readonly HistoricoProductoPrecioRepository _historicoProductoPrecioRepository =
             new HistoricoProductoPrecioRepository();
         //private readonly int _productoId;
@@ -33,33 +35,21 @@ namespace TecSoftware.Core
             return entity;
         }
 
-        public void ValidarProductoPrecio(ProductoPrecio entity)
-        {
-            var result = _productoPrecioValidator.Validate(entity);
-            if (!result.IsValid)
-                throw new CustomException(Validator.GetErrorMessages(result.Errors));
-        }
-
-        public ProductoPrecio Single(Expression<Func<ProductoPrecio, bool>> predicate,
+        public async Task<ProductoPrecio> Single(Expression<Func<ProductoPrecio, bool>> predicate,
             List<Expression<Func<ProductoPrecio, object>>> includes)
         {
-            return _productoPrecioRepository.Single(predicate, includes);
+            return await _productoPrecioRepository.Single(predicate, includes);
         }
 
-
-
-        public void Create(ProductoPrecio entity)
+        public async Task Create(ProductoPrecio entity)
         {
-            var result = _productoPrecioValidator.Validate(entity);
-            if (!result.IsValid)
-                throw new CustomException(Validator.GetErrorMessages(result.Errors));
             if (entity.ProductoPrecioId != default)
             { //Si precio de compra o precio de venta es difrente se crea un registro en historico y se actualiza ProductoPrecio.  
-                bool exist = _productoPrecioRepository.Exist(x => x.PrecioCompra != entity.PrecioCompra
+                bool exist = await _productoPrecioRepository.Exist(x => x.PrecioCompra != entity.PrecioCompra
                 || x.Pvp != entity.Pvp);
                 if (exist)
                 { //Traigo los datos de ProductoPrecio y los inserto en Historico
-                    var precioOld = _productoPrecioRepository.Single(x => x.ProductoPrecioId == entity.ProductoPrecioId);
+                    var precioOld = await _productoPrecioRepository.Single(x => x.ProductoPrecioId == entity.ProductoPrecioId);
                     if (precioOld != null)
                     {
                         var historico = new HistoricoProductoPrecio()
@@ -73,36 +63,36 @@ namespace TecSoftware.Core
                             Pvp = precioOld.Pvp,
                             FechaUpdate = DateTime.Now
                         };
-                        _historicoProductoPrecioRepository.Create(historico);//Los nuevos datos los actualizo en ProductoPrecio.
+                        await _historicoProductoPrecioRepository.Create(historico);//Los nuevos datos los actualizo en ProductoPrecio.
                     }
                 }
-                _productoPrecioRepository.Update(entity);
+                await _productoPrecioRepository.Update(entity);
             }
             else
             {
-                bool exist = _productoPrecioRepository.Exist(x => x.ProductoId == entity.ProductoId
+                bool exist = await _productoPrecioRepository.Exist(x => x.ProductoId == entity.ProductoId
                 && x.TipoPrecioId == entity.TipoPrecioId && x.Pvp == entity.Pvp);
                 if (exist)
                     throw new CustomException("El Precio que intenta registrar ya existe.");
-                _productoPrecioRepository.Create(entity);
+                await _productoPrecioRepository.Create(entity);
             }
         }
 
-        public IEnumerable<ProductoPrecio> Filter(Expression<Func<ProductoPrecio, bool>> predicate)
+        public async Task<IEnumerable<ProductoPrecio>> Filter(Expression<Func<ProductoPrecio, bool>> predicate)
         {
-            return _productoPrecioRepository.Filter(predicate);
+            return await _productoPrecioRepository.Filter(predicate);
         }
 
-        public IEnumerable<ProductoPrecioExtend> ListaProductoPrecio(int id)
+        public async Task<IEnumerable<ProductoPrecioExtend>> ListaProductoPrecio(int id)
         {
-            return _productoPrecioRepository.ListaProductoPrecio(id);
+            return await _productoPrecioRepository.ListaProductoPrecio(id);
         }
 
-        public void Delete(Expression<Func<ProductoPrecio, bool>> predicate)
+        public async Task Delete(Expression<Func<ProductoPrecio, bool>> predicate)
         {
             try
             {
-                _productoPrecioRepository.Delete(predicate);
+                await _productoPrecioRepository.Delete(predicate);
             }
             catch (CustomException)
             {
@@ -111,9 +101,9 @@ namespace TecSoftware.Core
             }
         }
 
-        public bool Exist(Expression<Func<ProductoPrecio, bool>> predicate)
+        public async Task<bool> Exist(Expression<Func<ProductoPrecio, bool>> predicate)
         {
-            return _productoPrecioRepository.Exist(predicate);
+            return await _productoPrecioRepository.Exist(predicate);
         }
     }
 }

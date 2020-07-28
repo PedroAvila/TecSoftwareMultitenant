@@ -40,15 +40,15 @@ namespace TecSoftware.Infrastructure
             }
         }
 
-        public IEnumerable<T> Filter(Expression<Func<T, bool>> predicate)
+        public async Task<IEnumerable<T>> Filter(Expression<Func<T, bool>> predicate)
         {
             using (var context = new BusinessContext())
             {
-                return context.Set<T>().Where(predicate).ToList();
+                return await context.Set<T>().Where(predicate).ToListAsync();
             }
         }
 
-        public IEnumerable<T> Filter(Expression<Func<T, bool>> predicate, List<Expression<Func<T, object>>> includes)
+        public async Task<IEnumerable<T>> Filter(Expression<Func<T, bool>> predicate, List<Expression<Func<T, object>>> includes)
         {
             List<string> includelist = new List<string>();
 
@@ -64,10 +64,8 @@ namespace TecSoftware.Infrastructure
             using (var context = new BusinessContext())
             {
                 IQueryable<T> query = context.Set<T>();
-
-                includelist.ForEach(x => query = query.Include(x));
-
-                return (IEnumerable<T>)query.Where(predicate).ToList();
+                await Task.Run(() => { includelist.ForEach(x => query = query.Include(x)); });
+                return (IEnumerable<T>)query.Where(predicate).ToListAsync();
             }
         }
 

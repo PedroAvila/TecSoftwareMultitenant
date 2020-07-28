@@ -1,14 +1,14 @@
-﻿using TecSoftware.EntidadesDominio;
+﻿using System.Threading.Tasks;
+using TecSoftware.EntidadesDominio;
 
 namespace TecSoftware.Core
 {
     public class SdRegistroInventario
     {
         private readonly SdProductoAlmacen _sdProductoAlmacen = new SdProductoAlmacen();
-        public void ActualizarSaldosCostos(RegistroInventario registroInventario, ProductoOrdenInventario productoOrdenInventario)
+        public async Task ActualizarSaldosCostos(RegistroInventario registroInventario, ProductoOrdenInventario productoOrdenInventario)
         {
-            _sdProductoAlmacen.ActualizarSaldosCostos(registroInventario, productoOrdenInventario);
-
+            await _sdProductoAlmacen.ActualizarSaldosCostos(registroInventario, productoOrdenInventario);
         }
     }
 }

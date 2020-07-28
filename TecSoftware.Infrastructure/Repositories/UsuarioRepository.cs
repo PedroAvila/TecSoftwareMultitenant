@@ -35,5 +35,18 @@ namespace TecSoftware.Infrastructure
                 context.SaveChanges();
             }
         }
+        public async Task UpdatePassword(Usuario entity)
+        {
+            using (var context = new BusinessContext())
+            {
+                var query = await (from u in context.Usuarios
+                                   where u.UsuarioId == entity.UsuarioId
+                                   select u).FirstOrDefaultAsync();
+                query.User = entity.User;
+                query.Password = entity.Password;
+                query.Estado = entity.Estado;
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using TecSoftware.BusinessException;
 using TecSoftware.EntidadesDominio;
@@ -64,7 +63,7 @@ namespace TecSoftware.Core
             return await _productoAlmacenRepository.ListaProductoAlmacen(id);
         }
 
-        public void ActualizarSaldosCostos(RegistroInventario registroInventario, ProductoOrdenInventario entity)
+        public async Task ActualizarSaldosCostos(RegistroInventario registroInventario, ProductoOrdenInventario entity)
         {
             MovimientoInventario movimientoInventario = new MovimientoInventario();
             movimientoInventario.ProductoAlmacenId = registroInventario.AlmacenId;
@@ -76,24 +75,24 @@ namespace TecSoftware.Core
             {
                 movimientoInventario.ProductoRegistroInventarioId = item.Id;
             }
-            var cantidadSaldoFinal = _sdMovimientoInventario.ObtenerCantidadSaldoFinal(entity.ProductoId);
+            var cantidadSaldoFinal = await _sdMovimientoInventario.ObtenerCantidadSaldoFinal(entity.ProductoId);
             //Saldo Inicial
-            if (cantidadSaldoFinal == (decimal)0)
+            if (cantidadSaldoFinal == 0M)
             {
                 movimientoInventario.CantidadSaldoInicial = entity.Cantidad;
-                movimientoInventario.CostoUnitarioSaldoInicial = (decimal)(6.00);
+                movimientoInventario.CostoUnitarioSaldoInicial = 6.00M;
                 movimientoInventario.CostoTotalSaldoInical
                     = movimientoInventario.CantidadSaldoInicial * movimientoInventario.CostoUnitarioSaldoInicial;
 
 
             }
             //Entrada
-            if (registroInventario.TipoRegistroInventario == TipoRegistroInventario.Entrada)
+            if (registroInventario.TipoRegistroInventario == RegistroInventarioType.Entrada)
             {
 
             }
             //Salida
-            if (registroInventario.TipoRegistroInventario == TipoRegistroInventario.Salida)
+            if (registroInventario.TipoRegistroInventario == RegistroInventarioType.Salida)
             {
 
             }
@@ -105,10 +104,10 @@ namespace TecSoftware.Core
 
             //Persistir en Movimiento Inventario
             movimientoInventario.FechaOperacionInventario = DateTime.Now;
-            _sdMovimientoInventario.Create(movimientoInventario);
+            await _sdMovimientoInventario.Create(movimientoInventario);
             //_sdMovimientoInventario.
             //Actualizar en ProductoAlmacen
-            _productoAlmacenRepository.UpdateProductoAlmacen
+            await _productoAlmacenRepository.UpdateProductoAlmacen
             (entity.ProductoId, entity.AlmacenId, movimientoInventario.CostoTotalSaldoInical);
         }
 

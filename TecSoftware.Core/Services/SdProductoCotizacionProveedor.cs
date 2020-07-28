@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -8,19 +9,19 @@ namespace TecSoftware.Core
     {
         private readonly ProductoCotizacionProveedorRepository _productoCotizacionProveedorRepository =
             new ProductoCotizacionProveedorRepository();
-        public IEnumerable<CotizacionProveedorExtend> BuscarCotizacionesXProducto(int producto)
+        public async Task<IEnumerable<CotizacionProveedorExtend>> BuscarCotizacionesXProducto(int producto)
         {
-            return _productoCotizacionProveedorRepository.BuscarCotizacionesXProducto(producto);
+            return await _productoCotizacionProveedorRepository.BuscarCotizacionesXProducto(producto);
         }
 
-        public IEnumerable<ProductoCotizacionProveedorExtend> ListaProductosProveedor()
+        public async Task<IEnumerable<ProductoCotizacionProveedorExtend>> ListaProductosProveedor()
         {
-            return _productoCotizacionProveedorRepository.ListaProductosProveedor();
+            return await _productoCotizacionProveedorRepository.ListaProductosProveedor();
         }
 
-        public ProductoCotizacionProveedorExtend BuscarProductoCotizacionProveedor(int id)
+        public async Task<ProductoCotizacionProveedorExtend> BuscarProductoCotizacionProveedor(int id)
         {
-            return _productoCotizacionProveedorRepository.BuscarProductoCotizacionProveedor(id);
+            return await _productoCotizacionProveedorRepository.BuscarProductoCotizacionProveedor(id);
         }
 
         public void Agregar(ProductoCotizacionProveedorExtend entity)

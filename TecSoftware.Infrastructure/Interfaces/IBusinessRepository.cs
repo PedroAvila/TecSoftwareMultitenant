@@ -18,9 +18,9 @@ namespace TecSoftware.Infrastructure
         Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<T, bool>> predicate
             , Expression<Func<T, UniversalExtend>> source);
 
-        IEnumerable<T> Filter(Expression<Func<T, bool>> predicate);
+        Task<IEnumerable<T>> Filter(Expression<Func<T, bool>> predicate);
 
-        IEnumerable<T> Filter(Expression<Func<T, bool>> predicate,
+        Task<IEnumerable<T>> Filter(Expression<Func<T, bool>> predicate,
             List<Expression<Func<T, object>>> includes);
 
         bool Exist(T entity);
