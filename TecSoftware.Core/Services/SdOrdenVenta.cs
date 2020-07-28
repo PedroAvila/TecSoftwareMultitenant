@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Transactions;
+using TecSoftware.BusinessException;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -13,64 +14,50 @@ namespace TecSoftware.Core
         private readonly OrdenVentaRepository _ordenVentaRepository = new OrdenVentaRepository();
         private readonly SdPuntoEmision _sdPuntoEmision = new SdPuntoEmision();
         private readonly SdNumeradorOrdenVenta _sdNumeradorOrdenVenta = new SdNumeradorOrdenVenta();
-        private readonly VentaValidator _ventaValidator = new VentaValidator();
-        private readonly OrdenVentaValidator _ordeVentaValidator = new OrdenVentaValidator();
 
 
-        public void Confirmar(OrdenVenta entity)
+        public async Task<string> CodigoNumerico()
         {
-            var result = _ventaValidator.Validate(entity);
-            if (!result.IsValid)
-                throw new CustomException(Validator.GetErrorMessages(result.Errors));
-        }
-
-        public string CodigoNumerico()
-        {
-            return _ordenVentaRepository.CodigoNumerico();
+            return await _ordenVentaRepository.CodigoNumerico();
         }
 
         public async Task Create(OrdenVenta entity)
         {
             using (var scope = new TransactionScope())
             {
-                var result = _ordeVentaValidator.Validate(entity);
-                if (!result.IsValid)
-                    throw new CustomException(Validator.GetErrorMessages(result.Errors));
-
-                var exist = _sdNumeradorOrdenVenta.Exist(x => x.PuntoEmisionId == entity.PuntoEmisionId);
+                var exist = await _sdNumeradorOrdenVenta.Exist(x => x.PuntoEmisionId == entity.PuntoEmisionId);
                 if (!exist)
                     throw new CustomException("Debe crear el Numerador Orden de Venta.");
                 if (entity.OrdenVentaId == default(int))
                 {
-                    entity.CodigoNumerico = CodigoNumerico();
+                    entity.CodigoNumerico = await CodigoNumerico();
                     var serie = _sdPuntoEmision.NumeroSerie(entity.PuntoEmisionId);
-                    var secuencial = _sdNumeradorOrdenVenta.NumeroSecuencial(entity.PuntoEmisionId);
+                    var secuencial = await _sdNumeradorOrdenVenta.NumeroSecuencial(entity.PuntoEmisionId);
                     entity.NumeroComprobante = serie + secuencial;
-                    _ordenVentaRepository.Registrar(entity);
+                    await _ordenVentaRepository.Registrar(entity);
                     var numerador = new NumeradorOrdenVenta()
                     {
                         PuntoEmisionId = entity.PuntoEmisionId,
                         Secuencial = secuencial
                     };
-                    _sdNumeradorOrdenVenta.UpdateNumeradorOrdenVenta(numerador);
+                    await _sdNumeradorOrdenVenta.UpdateNumeradorOrdenVenta(numerador);
                 }
                 else
                 {
-                    _ordenVentaRepository.Actualizar(entity);
+                    await _ordenVentaRepository.Actualizar(entity);
                 }
                 scope.Complete();
             }
         }
 
-        public IEnumerable<UniversalExtend> SelectOrdenesDeVenta(CriteriaOrdenVenta filter)
+        public async Task<IEnumerable<UniversalExtend>> SelectOrdenesDeVenta(CriteriaOrdenVenta filter)
         {
-            return _ordenVentaRepository.SelectOrdenesDeVenta(filter);
+            return await _ordenVentaRepository.SelectOrdenesDeVenta(filter);
         }
 
         public async Task<OrdenVenta> Single(Expression<Func<OrdenVenta, bool>> predicate)
         {
             return await _ordenVentaRepository.Single(predicate);
         }
-
     }
 }

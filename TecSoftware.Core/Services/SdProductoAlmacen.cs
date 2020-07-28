@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using TecSoftware.BusinessException;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -9,19 +12,17 @@ namespace TecSoftware.Core
     public class SdProductoAlmacen
     {
         private readonly ProductoAlmacenRepository _productoAlmacenRepository = new ProductoAlmacenRepository();
-        private readonly ProductoAlmacenValidator _productoAlmacenValidator = new ProductoAlmacenValidator();
-
         private readonly SdMovimientoInventario _sdMovimientoInventario = new SdMovimientoInventario();
 
-        public IEnumerable<UniversalExtend> SelectList(Expression<Func<ProductoAlmacen, UniversalExtend>> source)
+        public async Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<ProductoAlmacen, UniversalExtend>> source)
         {
-            return _productoAlmacenRepository.SelectList(source);
+            return await _productoAlmacenRepository.SelectList(source);
         }
 
-        public IEnumerable<UniversalExtend> SelectList
+        public async Task<IEnumerable<UniversalExtend>> SelectList
             (Expression<Func<ProductoAlmacen, bool>> predicate, Expression<Func<ProductoAlmacen, UniversalExtend>> source)
         {
-            return _productoAlmacenRepository.SelectList(predicate, source);
+            return await _productoAlmacenRepository.SelectList(predicate, source);
         }
 
         //public IEnumerable<UniversalExtend> ListarBodega
@@ -32,38 +33,35 @@ namespace TecSoftware.Core
         //    return listaItem;
         //}
 
-        public ProductoAlmacen Single(Expression<Func<ProductoAlmacen, bool>> predicate)
+        public async Task<ProductoAlmacen> Single(Expression<Func<ProductoAlmacen, bool>> predicate)
         {
-            return _productoAlmacenRepository.Single(predicate);
+            return await _productoAlmacenRepository.Single(predicate);
         }
 
-        public void Create(ProductoAlmacen entity)
+        public async Task Create(ProductoAlmacen entity)
         {
-            var result = _productoAlmacenValidator.Validate(entity);
-            if (!result.IsValid)
-                throw new CustomException(Validator.GetErrorMessages(result.Errors));
             if (entity.ProductoAlmacenId != default)
-                _productoAlmacenRepository.Update(entity);
+                await _productoAlmacenRepository.Update(entity);
             else
             {
-                bool exist = _productoAlmacenRepository.Exist(x =>
+                bool exist = await _productoAlmacenRepository.Exist(x =>
 
                 x.AlmacenId == entity.AlmacenId && x.ProductoId == entity.ProductoId
                      && x.PresentacionId == entity.PresentacionId);
                 if (exist)
                     throw new CustomException("El producto almacén que intenta registrar ya existe.");
-                _productoAlmacenRepository.Create(entity);
+                await _productoAlmacenRepository.Create(entity);
             }
         }
 
-        public void Delete(Expression<Func<ProductoAlmacen, bool>> predicate)
+        public async Task Delete(Expression<Func<ProductoAlmacen, bool>> predicate)
         {
-            _productoAlmacenRepository.Delete(predicate);
+            await _productoAlmacenRepository.Delete(predicate);
         }
 
-        public IEnumerable<ProductoAlmacenExtend> ListaProductoAlmacen(int id)
+        public async Task<IEnumerable<ProductoAlmacenExtend>> ListaProductoAlmacen(int id)
         {
-            return _productoAlmacenRepository.ListaProductoAlmacen(id);
+            return await _productoAlmacenRepository.ListaProductoAlmacen(id);
         }
 
         public void ActualizarSaldosCostos(RegistroInventario registroInventario, ProductoOrdenInventario entity)

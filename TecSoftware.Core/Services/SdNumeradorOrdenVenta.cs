@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using TecSoftware.BusinessException;
 using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
@@ -11,67 +13,65 @@ namespace TecSoftware.Core
     {
         private readonly NumeradorOrdenVentaRepository _numeradorOrdenVentaRepository =
             new NumeradorOrdenVentaRepository();
-        private readonly NumeradorOrdenVentaValidator _numeradorOrdenVentaValidator = new NumeradorOrdenVentaValidator();
 
-        public IEnumerable<UniversalExtend> SelectList(Expression<Func<NumeradorOrdenVenta, UniversalExtend>> source)
+
+        public async Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<NumeradorOrdenVenta, UniversalExtend>> source)
         {
-            return _numeradorOrdenVentaRepository.SelectList(source);
+            return await _numeradorOrdenVentaRepository.SelectList(source);
         }
 
-        public IEnumerable<UniversalExtend> SelectList
+        public async Task<IEnumerable<UniversalExtend>> SelectList
             (Expression<Func<NumeradorOrdenVenta, bool>> predicate, Expression<Func<NumeradorOrdenVenta, UniversalExtend>> source)
         {
-            return _numeradorOrdenVentaRepository.SelectList(predicate, source);
+            return await _numeradorOrdenVentaRepository.SelectList(predicate, source);
         }
 
-        public IEnumerable<UniversalExtend> ListaNumeradorOrdenVentas
+        public Task<IEnumerable<UniversalExtend>> ListaNumeradorOrdenVentas
             (Expression<Func<NumeradorOrdenVenta, UniversalExtend>> source)
         {
-            var listaItem = SelectList(source).ToList();
-            listaItem.Insert(0, new UniversalExtend() { Id = -1, Descripcion = "<<<Seleccione>>>" });
-            return listaItem;
+            var listaItem = Task.Run(() => SelectList(source)).Result;
+            listaItem.ToList().Insert(0, new UniversalExtend() { Id = -1, Descripcion = "<<<Seleccione>>>" });
+            return (Task<IEnumerable<UniversalExtend>>)listaItem;
         }
 
-        public NumeradorOrdenVenta Single(Expression<Func<NumeradorOrdenVenta, bool>> predicate)
+        public async Task<NumeradorOrdenVenta> Single(Expression<Func<NumeradorOrdenVenta, bool>> predicate)
         {
-            return _numeradorOrdenVentaRepository.Single(predicate);
+            return await _numeradorOrdenVentaRepository.Single(predicate);
         }
 
-        public bool Exist(Expression<Func<NumeradorOrdenVenta, bool>> predicate)
+        public async Task<bool> Exist(Expression<Func<NumeradorOrdenVenta, bool>> predicate)
         {
-            return _numeradorOrdenVentaRepository.Exist(predicate);
+            return await _numeradorOrdenVentaRepository.Exist(predicate);
 
         }
 
-        public void Create(NumeradorOrdenVenta entity)
+        public async Task Create(NumeradorOrdenVenta entity)
         {
-            var result = _numeradorOrdenVentaValidator.Validate(entity);
-            if (!result.IsValid)
-                throw new CustomException(Validator.GetErrorMessages(result.Errors));
+
             if (entity.Id != default(int))
-                _numeradorOrdenVentaRepository.Update(entity);
+                await _numeradorOrdenVentaRepository.Update(entity);
             else
             {
-                bool exist = _numeradorOrdenVentaRepository.Exist(x => x.Serie == entity.Serie);
+                bool exist = await _numeradorOrdenVentaRepository.Exist(x => x.Serie == entity.Serie);
                 if (exist)
                     throw new CustomException("el numerador de Orden de venta que intenta registrar ya existe.");
-                _numeradorOrdenVentaRepository.Create(entity);
+                await _numeradorOrdenVentaRepository.Create(entity);
             }
         }
 
-        public void Delete(Expression<Func<NumeradorOrdenVenta, bool>> predicate)
+        public async Task Delete(Expression<Func<NumeradorOrdenVenta, bool>> predicate)
         {
-            _numeradorOrdenVentaRepository.Delete(predicate);
+            await _numeradorOrdenVentaRepository.Delete(predicate);
         }
 
-        public string NumeroSecuencial(int puntoEmision)
+        public async Task<string> NumeroSecuencial(int puntoEmision)
         {
-            return _numeradorOrdenVentaRepository.NumeroSecuencial(puntoEmision);
+            return await _numeradorOrdenVentaRepository.NumeroSecuencial(puntoEmision);
         }
 
-        public void UpdateNumeradorOrdenVenta(NumeradorOrdenVenta entity)
+        public async Task UpdateNumeradorOrdenVenta(NumeradorOrdenVenta entity)
         {
-            _numeradorOrdenVentaRepository.UpdateNumeradorOrdenVenta(entity);
+            await _numeradorOrdenVentaRepository.UpdateNumeradorOrdenVenta(entity);
         }
     }
 }

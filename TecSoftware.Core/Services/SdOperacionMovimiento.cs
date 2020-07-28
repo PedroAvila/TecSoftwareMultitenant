@@ -1,4 +1,5 @@
-﻿using TecSoftware.EntidadesDominio;
+﻿using System.Threading.Tasks;
+using TecSoftware.EntidadesDominio;
 using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
@@ -7,7 +8,7 @@ namespace TecSoftware.Core
     {
         public readonly OperacionMovimientoRepository _operacionMovimientoRepository = new OperacionMovimientoRepository();
 
-        public void Create(OperacionMovimiento entity)
+        public async Task Create(OperacionMovimiento entity)
         {
             //var result = _clienteValidator.Validate(entity);
             //if (!result.IsValid)
@@ -21,7 +22,7 @@ namespace TecSoftware.Core
             //        throw new CustomException("El número de documento que intenta registrar ya existe.");
             //    _clienteRepository.Create(entity);
             //}
-            _operacionMovimientoRepository.Registrar(entity);
+            await _operacionMovimientoRepository.Registrar(entity);
         }
     }
 }
