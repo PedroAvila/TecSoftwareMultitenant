@@ -5,7 +5,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdProductoCotizacionProveedor
+    public class SdProductoCotizacionProveedor : ISdProductoCotizacionProveedor
     {
         private readonly ProductoCotizacionProveedorRepository _productoCotizacionProveedorRepository =
             new ProductoCotizacionProveedorRepository();

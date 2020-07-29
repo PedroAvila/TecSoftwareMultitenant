@@ -5,7 +5,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdRecuento
+    public class SdRecuento : ISdRecuento
     {
         private readonly RecuentoRepository _recuentoRepository = new RecuentoRepository();
 

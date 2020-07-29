@@ -9,7 +9,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdAreaNegocio
+    public class SdAreaNegocio : ISdAreaNegocio
     {
         private readonly AreaNegocioRepository _areaNegocioRepository = new AreaNegocioRepository();
 

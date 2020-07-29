@@ -9,7 +9,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdMedida
+    public class SdMedida : ISdMedida
     {
         private readonly MedidaRepository _medidaRepository = new MedidaRepository();
 

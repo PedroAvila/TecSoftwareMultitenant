@@ -9,7 +9,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdImpuesto
+    public class SdImpuesto : ISdImpuesto
     {
         private readonly ImpuestoRepository _impuestoRepository = new ImpuestoRepository();
 

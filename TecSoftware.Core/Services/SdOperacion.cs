@@ -7,7 +7,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdOperacion
+    public class SdOperacion : ISdOperacion
     {
         private readonly OperacionRepository _operacionRepository = new OperacionRepository();
 

@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdFuncion
+    public class SdFuncion : ISdFuncion
     {
         private readonly FuncionRepository _funcionRepository = new FuncionRepository();
 

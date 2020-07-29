@@ -37,6 +37,11 @@ namespace TecSoftware.EntidadesDominio
         public virtual ICollection<Talla> Tallas { get; set; }
         public virtual ICollection<ProductoPrecio> ProductoPrecios { get; set; }
         public virtual ICollection<Proveedor> Proveedores { get; set; }
+
+        public virtual ICollection<ProductoTasaImpuesto> ProductoTasaImpuestos { get; set; }
+        public virtual ICollection<ProductoColor> ProductoColores { get; set; }
+        public virtual ICollection<ProductoTalla> ProductoTallas { get; set; }
+        public virtual ICollection<ProductoProveedor> ProductoProveedores { get; set; }
         public object PrecioBase { get; set; }
     }
 }

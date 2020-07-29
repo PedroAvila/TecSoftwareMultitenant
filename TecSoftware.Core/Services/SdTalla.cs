@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdTalla
+    public class SdTalla : ISdTalla
     {
         private readonly TallaRepository _tallaRepository = new TallaRepository();
 

@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdMovimientoCaja
+    public class SdMovimientoCaja : ISdMovimientoCaja
     {
         private readonly MovimientoCajaRepository _movimientoCajaRepository = new MovimientoCajaRepository();
 

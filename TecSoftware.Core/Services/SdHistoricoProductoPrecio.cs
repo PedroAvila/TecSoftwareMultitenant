@@ -4,7 +4,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdHistoricoProductoPrecio
+    public class SdHistoricoProductoPrecio : ISdHistoricoProductoPrecio
     {
         private readonly HistoricoProductoPrecioRepository _historicoProductoPrecioRepository =
             new HistoricoProductoPrecioRepository();

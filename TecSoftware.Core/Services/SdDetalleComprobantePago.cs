@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdDetalleComprobantePago
+    public class SdDetalleComprobantePago : ISdDetalleComprobantePago
     {
         private readonly DetalleComprobantePagoRepository _detalleComprobantePagoRepository = new DetalleComprobantePagoRepository();
         private readonly ProductoRepository _productoRepository = new ProductoRepository();

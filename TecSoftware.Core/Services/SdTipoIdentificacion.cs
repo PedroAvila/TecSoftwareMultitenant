@@ -9,7 +9,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdTipoIdentificacion
+    public class SdTipoIdentificacion : ISdTipoIdentificacion
     {
         private readonly TipoIdentificacionRepository _tipoIdentificacionRepository =
             new TipoIdentificacionRepository();

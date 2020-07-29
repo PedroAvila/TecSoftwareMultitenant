@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdColor
+    public class SdColor : ISdColor
     {
         private readonly ColorRepository _colorRepository = new ColorRepository();
 

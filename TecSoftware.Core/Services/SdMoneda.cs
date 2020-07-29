@@ -9,7 +9,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdMoneda
+    public class SdMoneda : ISdMoneda
     {
         private readonly MonedaRepository _monedaRepository = new MonedaRepository();
 

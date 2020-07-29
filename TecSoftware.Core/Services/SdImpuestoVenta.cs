@@ -4,7 +4,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdImpuestoVenta
+    public class SdImpuestoVenta : ISdImpuestoVenta
     {
         private readonly ImpuestoVentaRepository _impuestoVentaRepository = new ImpuestoVentaRepository();
 

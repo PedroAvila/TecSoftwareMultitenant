@@ -9,7 +9,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdPuntoEmision
+    public class SdPuntoEmision : ISdPuntoEmision
     {
         private readonly PuntoEmisionRepository _puntoEmisionRepository = new PuntoEmisionRepository();
 

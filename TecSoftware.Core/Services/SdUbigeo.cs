@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdUbigeo
+    public class SdUbigeo : ISdUbigeo
     {
         private readonly UbigeoRepository _ubigeoRepository = new UbigeoRepository();
 

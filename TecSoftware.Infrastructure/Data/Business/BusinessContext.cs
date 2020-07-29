@@ -7,11 +7,95 @@ namespace TecSoftware.Infrastructure.Data.Business
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Business;Integrated Security=True");
+            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //### ComprobanteTipoIdentificacion
+            modelBuilder.Entity<ComprobanteTipoIdentificacion>()
+                .HasKey(c => new { c.ComprobanteId, c.TipoIdentificacionId });
+
+            modelBuilder.Entity<ComprobanteTipoIdentificacion>()
+                .HasOne(ct => ct.Comprobante)
+                .WithMany(c => c.ComprobanteTipoIdentificaciones)
+                .HasForeignKey(ct => ct.ComprobanteId);
+
+            modelBuilder.Entity<ComprobanteTipoIdentificacion>()
+                .HasOne(ct => ct.TipoIdentificacion)
+                .WithMany(t => t.ComprobanteTipoIdentificaciones)
+                .HasForeignKey(ct => ct.TipoIdentificacionId);
+
+            //### ProductoTasaImpuestos
+            modelBuilder.Entity<ProductoTasaImpuesto>()
+                .HasKey(c => new { c.ProductoId, c.TasaImpuestoId });
+
+            modelBuilder.Entity<ProductoTasaImpuesto>()
+                .HasOne(pt => pt.Producto)
+                .WithMany(p => p.ProductoTasaImpuestos)
+                .HasForeignKey(pt => pt.ProductoId);
+
+            modelBuilder.Entity<ProductoTasaImpuesto>()
+                .HasOne(pt => pt.TasaImpuesto)
+                .WithMany(t => t.ProductoTasaImpuestos)
+                .HasForeignKey(pt => pt.TasaImpuestoId);
+
+            //### ProductoColores
+            modelBuilder.Entity<ProductoColor>()
+                .HasKey(c => new { c.ProductoId, c.ColorId });
+
+            modelBuilder.Entity<ProductoColor>()
+                .HasOne(pc => pc.Producto)
+                .WithMany(p => p.ProductoColores)
+                .HasForeignKey(pc => pc.ProductoId);
+
+            modelBuilder.Entity<ProductoColor>()
+                .HasOne(pc => pc.Colour)
+                .WithMany(c => c.ProductoColores)
+                .HasForeignKey(pc => pc.ColorId);
+
+            //### ProductoTallas
+            modelBuilder.Entity<ProductoTalla>()
+                .HasKey(c => new { c.ProductoId, c.TallaId });
+
+            modelBuilder.Entity<ProductoTalla>()
+                .HasOne(pt => pt.Producto)
+                .WithMany(p => p.ProductoTallas)
+                .HasForeignKey(pt => pt.ProductoId);
+
+            modelBuilder.Entity<ProductoTalla>()
+                .HasOne(pt => pt.Talla)
+                .WithMany(t => t.ProductoTallas)
+                .HasForeignKey(pt => pt.TallaId);
+
+            //### ProductoProveedores
+            modelBuilder.Entity<ProductoProveedor>()
+                .HasKey(c => new { c.ProductoId, c.ProveedorId });
+
+            modelBuilder.Entity<ProductoProveedor>()
+                .HasOne(pp => pp.Producto)
+                .WithMany(p => p.ProductoProveedores)
+                .HasForeignKey(pp => pp.ProductoId);
+
+            modelBuilder.Entity<ProductoProveedor>()
+                .HasOne(pp => pp.Proveedor)
+                .WithMany(p => p.ProductoProveedores)
+                .HasForeignKey(pp => pp.ProveedorId);
+
+            //### RolFunciones
+            modelBuilder.Entity<RolFuncion>()
+                .HasKey(c => new { c.RolId, c.FuncionId });
+
+            modelBuilder.Entity<RolFuncion>()
+                .HasOne(rf => rf.Rol)
+                .WithMany(r => r.RolFunciones)
+                .HasForeignKey(rf => rf.RolId);
+
+            modelBuilder.Entity<RolFuncion>()
+                .HasOne(rf => rf.Funcion)
+                .WithMany(f => f.RolFunciones)
+                .HasForeignKey(rf => rf.FuncionId);
+
             modelBuilder.ApplyConfiguration(new EmpresaMap());
         }
 

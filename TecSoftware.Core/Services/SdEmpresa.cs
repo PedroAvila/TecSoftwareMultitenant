@@ -9,7 +9,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdEmpresa
+    public class SdEmpresa : ISdEmpresa
     {
         private readonly EmpresaRepository _empresaRepository = new EmpresaRepository();
 

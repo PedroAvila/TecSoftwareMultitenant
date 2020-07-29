@@ -9,7 +9,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdNumeradorComprobante
+    public class SdNumeradorComprobante : ISdNumeradorComprobante
     {
 
         private readonly NumeradorRepository _numeradorRepository = new NumeradorRepository();

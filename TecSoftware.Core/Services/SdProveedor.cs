@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdProveedor
+    public class SdProveedor : ISdProveedor
     {
         private readonly ProveedorRepository _proveedorRepository = new ProveedorRepository();
 

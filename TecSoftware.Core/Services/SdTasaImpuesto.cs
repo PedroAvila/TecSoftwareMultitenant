@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdTasaImpuesto
+    public class SdTasaImpuesto : ISdTasaImpuesto
     {
         private readonly TasaImpuestoRepository _tarifaImpuestoRepository = new TasaImpuestoRepository();
 

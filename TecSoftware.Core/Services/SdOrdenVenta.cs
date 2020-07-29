@@ -9,7 +9,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdOrdenVenta
+    public class SdOrdenVenta : ISdOrdenVenta
     {
         private readonly OrdenVentaRepository _ordenVentaRepository = new OrdenVentaRepository();
         private readonly SdPuntoEmision _sdPuntoEmision = new SdPuntoEmision();

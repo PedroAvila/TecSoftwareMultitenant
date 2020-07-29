@@ -9,7 +9,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdAlmacen
+    public class SdAlmacen : ISdAlmacen
     {
         private readonly AlmacenRepository _almacenRepository = new AlmacenRepository();
 

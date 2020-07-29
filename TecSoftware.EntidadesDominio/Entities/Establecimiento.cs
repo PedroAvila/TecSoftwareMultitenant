@@ -15,5 +15,6 @@ namespace TecSoftware.EntidadesDominio
 
         public virtual Empresa Empresa { get; set; }
         public virtual ICollection<PuntoEmision> PuntoEmisiones { get; set; }
+        public virtual ICollection<Almacen> Almacenes { get; set; }
     }
 }

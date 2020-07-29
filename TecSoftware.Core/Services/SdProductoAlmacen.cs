@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdProductoAlmacen
+    public class SdProductoAlmacen : ISdProductoAlmacen
     {
         private readonly ProductoAlmacenRepository _productoAlmacenRepository = new ProductoAlmacenRepository();
         private readonly SdMovimientoInventario _sdMovimientoInventario = new SdMovimientoInventario();

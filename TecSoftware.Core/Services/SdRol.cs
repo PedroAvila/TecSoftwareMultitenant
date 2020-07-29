@@ -9,7 +9,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdRol
+    public class SdRol : ISdRol
     {
         private readonly RolRepository _rolRepository = new RolRepository();
 

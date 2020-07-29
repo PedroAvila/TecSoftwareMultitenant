@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdLaboratorio
+    public class SdLaboratorio : ISdLaboratorio
     {
         private readonly LaboratorioRepository _laboratorioRepository = new LaboratorioRepository();
 

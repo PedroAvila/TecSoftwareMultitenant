@@ -11,7 +11,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdComprobantePago
+    public class SdComprobantePago : ISdComprobantePago
     {
         private readonly SdPuntoEmision _sdPuntoEmision = new SdPuntoEmision();
         private readonly SdDetalleOrdenVenta _sdDetalleOrdenVenta = new SdDetalleOrdenVenta();
@@ -24,6 +24,7 @@ namespace TecSoftware.Core
         private readonly SdImpuestoVenta _sdImpuestoVenta = new SdImpuestoVenta();
         private readonly SdOperacion _sdOperacion = new SdOperacion();
         private readonly IMapper _mapper;
+
 
         /// <summary>
         /// El código númerico de un comprobante de pago es de 8 digitos.

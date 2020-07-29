@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdCliente
+    public class SdCliente : ISdCliente
     {
         private readonly ClienteRepository _clienteRepository = new ClienteRepository();
 

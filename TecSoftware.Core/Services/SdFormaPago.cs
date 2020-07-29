@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdFormaPago
+    public class SdFormaPago : ISdFormaPago
     {
         private readonly FormaPagoRepository _formaPagoRepository = new FormaPagoRepository();
 

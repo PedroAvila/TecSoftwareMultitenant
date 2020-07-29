@@ -9,7 +9,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdComprobante
+    public class SdComprobante : ISdComprobante
     {
         private readonly ComprobanteRepository _comprobanteRepository = new ComprobanteRepository();
 

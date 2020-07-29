@@ -8,7 +8,7 @@ using TecSoftware.Persistencia;
 
 namespace TecSoftware.Core
 {
-    public class SdSolicitudCotizacion
+    public class SdSolicitudCotizacion : ISdSolicitudCotizacion
     {
         private readonly SolicitudCotizacionRepository _solicitudCotizacionRepository =
             new SolicitudCotizacionRepository();

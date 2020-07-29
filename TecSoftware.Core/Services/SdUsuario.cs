@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdUsuario
+    public class SdUsuario : ISdUsuario
     {
         private readonly UsuarioRepository _usuarioRepository = new UsuarioRepository();
 

@@ -4,7 +4,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdMovimientoInventario
+    public class SdMovimientoInventario : ISdMovimientoInventario
     {
         private readonly MovimientoInventarioRepository _movimientoInventarioRepository
             = new MovimientoInventarioRepository();

@@ -8,7 +8,7 @@ using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Core
 {
-    public class SdMarca
+    public class SdMarca : ISdMarca
     {
         private readonly MarcaRepository _marcaRepository = new MarcaRepository();
 
