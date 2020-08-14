@@ -13,7 +13,7 @@ namespace TecSoftware.EntidadesDominio
         public TasaImpuestoStatus Estado { get; set; }
 
         public virtual Impuesto Impuesto { get; set; }
-        public virtual ICollection<Producto> Productos { get; set; }
+        //public virtual ICollection<Producto> Productos { get; set; }
         public virtual ICollection<ImpuestoVenta> ImpuestoVentas { get; set; }
         public virtual ICollection<ProductoTasaImpuesto> ProductoTasaImpuestos { get; set; }
     }

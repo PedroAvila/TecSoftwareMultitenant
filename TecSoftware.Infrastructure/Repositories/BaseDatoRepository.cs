@@ -11,7 +11,7 @@ namespace TecSoftware.Infrastructure
     {
         public async Task<IEnumerable<string>> GetAll(string nameTenan)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new CatalogoContext())
             {
                 //var result = await context.BaseDatos.Include(c => c.Inquilino)
                 //    .Where(b => b.Inquilino.Nombre == nameTenan)

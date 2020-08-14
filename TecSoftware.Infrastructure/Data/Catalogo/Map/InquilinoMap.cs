@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TecSoftware.EntidadesDominio;
 
-namespace TecSoftware.Infrastructure.Data
+namespace TecSoftware.Infrastructure.Data.Catalogo
 {
     public class InquilinoMap : IEntityTypeConfiguration<Inquilino>
     {

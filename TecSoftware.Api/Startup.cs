@@ -12,6 +12,7 @@ using System;
 using System.Text;
 using TecSoftware.Core;
 using TecSoftware.Infrastructure;
+using TecSoftware.Infrastructure.Data.Business;
 using TecSoftware.Infrastructure.Data.Catalogo;
 
 namespace TecSoftware.Api
@@ -39,24 +40,28 @@ namespace TecSoftware.Api
 
 
             var connectionString = Configuration.GetConnectionString("CatalogoInquilino");
-            services.AddDbContext<CatalogoInquilinoContext>(options =>
+            services.AddDbContext<CatalogoContext>(options =>
             {
                 options.UseSqlServer(connectionString);
             });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddDbContext<BusinessContext>(ServiceLifetime.Scoped);
+            //services.AddScoped<ITenantProvider, WebTenantProvider>();
 
 
             services.AddTransient<ISdServidor, SdServidor>();
             services.AddTransient<ISdBaseDato, SdBaseDato>();
             services.AddTransient<ISdInquilino, SdInquilino>();
             services.AddTransient<ISdUsuario, SdUsuario>();
-            //services.AddTransient<IService, Service>();
 
             services.AddScoped(typeof(IInquilinoRepository<>), typeof(BaseInquilinoRepository<>));
 
+
+
             services.AddHttpContextAccessor();
             services.AddSingleton(new Startup(Configuration));
-            services.AddScoped<ITenantProvider, ServiceContextTenantProvider>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -90,6 +95,9 @@ namespace TecSoftware.Api
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseWebTenantProvider();
+
 
             app.UseEndpoints(endpoints =>
             {

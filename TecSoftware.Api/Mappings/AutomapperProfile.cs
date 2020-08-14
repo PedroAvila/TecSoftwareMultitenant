@@ -22,6 +22,7 @@ namespace TecSoftware.Api.Mappings
             //    .ForMember(dest => dest.BaseDato, opt => opt.Ignore()).ReverseMap();
             CreateMap<Usuario, UsuarioDto>().ReverseMap();
             CreateMap<List<DetalleOrdenVenta>, List<DetalleComprobantePago>>().ReverseMap();
+            CreateMap<ProductoOrdenInventarioExtend, ProductoOrdenInventarioDto>().ReverseMap();
         }
     }
 }

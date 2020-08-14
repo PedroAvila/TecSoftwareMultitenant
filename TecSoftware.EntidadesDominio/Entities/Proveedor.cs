@@ -18,7 +18,7 @@ namespace TecSoftware.EntidadesDominio
 
         public virtual TipoIdentificacion TipoIdentificacion { get; set; }
         public virtual Ubigeo Ubigeo { get; set; }
-        public virtual ICollection<Producto> Productos { get; set; }
+        //public virtual ICollection<Producto> Productos { get; set; }
         public virtual ICollection<ProductoProveedor> ProductoProveedores { get; set; }
     }
 }

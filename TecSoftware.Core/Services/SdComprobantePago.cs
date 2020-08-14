@@ -35,6 +35,7 @@ namespace TecSoftware.Core
             return await _comprobantePagoRepository.CodigoNumerico();
         }
 
+        //CORREJIR DESPUES DE CREAR LA DB
         public async Task Create(ComprobantePago entity, List<DetalleOrdenVenta> listDetalleOrdenVenta)
         {
             using (var scope = new TransactionScope())
@@ -117,20 +118,20 @@ namespace TecSoftware.Core
                         var tasaimpuesto = await _sdProducto.Single(x => x.ProductoId == item.ProductoId,
                             new List<Expression<Func<Producto, object>>>()
                             {
-                                x => x.TasaImpuestos
+                                //x => x.TasaImpuestos
                             });
 
-                        var listImpuesto = tasaimpuesto.TasaImpuestos.ToList();
-                        var y = listImpuesto.FirstOrDefault();
-                        if (y != null)
-                        {
-                            var impuestoVenta = new ImpuestoVenta()
-                            {
-                                DetalleComprobantePagoId = item.DetalleComprobantePagoId,
-                                TasaImpuestoId = y.TasaImpuestoId
-                            };
-                            await _sdImpuestoVenta.Create(impuestoVenta);
-                        }
+                        //var listImpuesto = tasaimpuesto.TasaImpuestos.ToList();
+                        //var y = listImpuesto.FirstOrDefault();
+                        //if (y != null)
+                        //{
+                        //    var impuestoVenta = new ImpuestoVenta()
+                        //    {
+                        //        DetalleComprobantePagoId = item.DetalleComprobantePagoId,
+                        //        TasaImpuestoId = y.TasaImpuestoId
+                        //    };
+                        //    await _sdImpuestoVenta.Create(impuestoVenta);
+                        //}
                     }
 
                     var numerador = new NumeradorComprobante()

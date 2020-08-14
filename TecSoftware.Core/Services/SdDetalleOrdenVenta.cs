@@ -17,7 +17,7 @@ namespace TecSoftware.Core
             var producto = await _productoRepository.Single(x => x.ProductoId == entity.ProductoId,
                 new List<Expression<Func<Producto, object>>>() {
                     x=>x.Medida,
-                    x => x.TasaImpuestos,
+                    //x => x.TasaImpuestos,
                     x => x.ProductoPrecios
                 });
 
@@ -120,7 +120,8 @@ namespace TecSoftware.Core
         public async Task ModificarCantidad(DetalleOrdenVentaExtend entity)
         {
             var producto = await _productoRepository.Single(x => x.ProductoId == entity.ProductoId,
-                new List<Expression<Func<Producto, object>>>() { x => x.TasaImpuestos, x => x.ProductoPrecios });
+                //new List<Expression<Func<Producto, object>>>() { x => x.TasaImpuestos, x => x.ProductoPrecios });
+                new List<Expression<Func<Producto, object>>>() { x => x.ProductoPrecios });
 
             if (producto != null)
             {

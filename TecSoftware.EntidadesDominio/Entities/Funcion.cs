@@ -7,7 +7,6 @@ namespace TecSoftware.EntidadesDominio
         public int FuncionId { get; set; }
         public string Nombre { get; set; }
 
-        public virtual ICollection<Rol> Roles { get; set; }
         public virtual ICollection<RolFuncion> RolFunciones { get; set; }
     }
 }

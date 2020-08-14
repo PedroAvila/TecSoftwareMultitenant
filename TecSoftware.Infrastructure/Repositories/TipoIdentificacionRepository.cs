@@ -27,15 +27,15 @@ namespace TecSoftware.Infrastructure
 
         public async Task<List<ICollection<TipoIdentificacion>>> IdentificacionXComprobante(int id)
         {
-            using (var context = new BusinessContext())
-            {
-                var list = await context.Comprobantes
-                    //.Include(c => c.TipoIdentificaciones)
-                    .Where(x => x.ComprobanteId == id)
-                    .Select(c => c.TipoIdentificaciones).ToListAsync();
+            //using (var context = new BusinessContext())
+            //{
+            //    var list = await context.Comprobantes
+            //        .Where(x => x.ComprobanteId == id)
+            //        .Select(c => c.TipoIdentificaciones).ToListAsync();
 
-                return list;
-            }
+            //    return list;
+            //}
+            throw new NotImplementedException();
         }
 
         //public IQueryable<List<TipoIdentificacion>> xxxxx(int id)

@@ -6,7 +6,7 @@ namespace TecSoftware.Api
 {
     public class Utilidades
     {
-        private static string Clave = "MADSshj";
+        private readonly static string Clave = "MADSshj";
 
         public static string Desifrar(string textoEncriptado)
         {
@@ -27,11 +27,12 @@ namespace TecSoftware.Api
             hashmd5.Clear();
 
             TripleDESCryptoServiceProvider tdes =
-            new TripleDESCryptoServiceProvider();
-
-            tdes.Key = keyArray;
-            tdes.Mode = CipherMode.ECB;
-            tdes.Padding = PaddingMode.PKCS7;
+            new TripleDESCryptoServiceProvider
+            {
+                Key = keyArray,
+                Mode = CipherMode.ECB,
+                Padding = PaddingMode.PKCS7
+            };
 
             ICryptoTransform cTransform =
             tdes.CreateDecryptor();

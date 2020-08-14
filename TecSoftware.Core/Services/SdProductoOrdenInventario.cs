@@ -30,10 +30,26 @@ namespace TecSoftware.Core
             return await _productoOrdenInventarioRepository.Single(predicate);
         }
 
-        public async Task<ProductoOrdenInventario> Single(Expression<Func<ProductoOrdenInventario, bool>> predicate,
-            List<Expression<Func<ProductoOrdenInventario, object>>> includes)
+        //public async Task<ProductoOrdenInventario> Single(Expression<Func<ProductoOrdenInventario, bool>> predicate,
+        //    List<Expression<Func<ProductoOrdenInventario, object>>> includes)
+        //Los DTO no tinen propidades de navegación.
+        public async Task<ProductoOrdenInventarioExtend> SingleIncludes(Expression<Func<ProductoOrdenInventario, bool>> predicate)
         {
-            return await _productoOrdenInventarioRepository.Single(predicate, includes);
+            var result = await _productoOrdenInventarioRepository.Single(predicate,
+                new List<Expression<Func<ProductoOrdenInventario, object>>>()
+                 {
+                     x=>x.Producto
+                     //x=>x.Presentacion,
+                     //x=>x.Almacen
+                 });
+
+            var entity = new ProductoOrdenInventarioExtend()
+            {
+                ProductoId = result.ProductoId,
+                NombreProducto = result.Producto.Nombre,
+                PresentacionId = result.PresentacionId
+            };
+            return entity;
         }
 
         public async Task Create(ProductoOrdenInventario entity)

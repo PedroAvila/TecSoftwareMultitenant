@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TecSoftware.Core;
 using TecSoftware.EntidadesDominio;
+using TecSoftware.Infrastructure;
 
 namespace TecSoftware.Api.Controllers
 {
@@ -14,23 +16,32 @@ namespace TecSoftware.Api.Controllers
     {
         private readonly ISdUsuario _sdUsuario;
         private readonly IMapper _mapper;
-
-        public UsuarioController(ISdUsuario sdUsuario, IMapper mapper)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        //private readonly ITenantProvider _tenantProvider;
+        public UsuarioController(ISdUsuario sdUsuario, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _sdUsuario = sdUsuario;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
+            //_tenantProvider = tenantProvider;
+
+            //var name = _tenantProvider.GetName();
         }
 
-        [HttpPost] //string user, string password
-        public async Task<bool> Autentificar(UsuarioDto usuarioDto)
-        {
+        [HttpGet("[action]")]
+        public async Task<bool> Autentificar([FromQuery] string user, [FromQuery] string password)
+        {//UsuarioDto usuarioDto
+            var usuarioDto = new UsuarioDto()
+            {
+                User = user,
+                Password = password
+            };
+
             var usuario = _mapper.Map<Usuario>(usuarioDto);
             var exist = await _sdUsuario.Autentificar(usuario);
             if (exist)
                 return exist;
             return exist;
         }
-
-
     }
 }

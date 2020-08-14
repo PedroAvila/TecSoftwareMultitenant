@@ -13,7 +13,7 @@ namespace TecSoftware.Infrastructure
     {
         public IEnumerable<T> GetAll()
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new CatalogoContext())
             {
                 return context.Set<T>().ToList();
             }
@@ -32,7 +32,7 @@ namespace TecSoftware.Infrastructure
                 includelist.Add(body.Member.Name);
             }
 
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new CatalogoContext())
             {
                 IQueryable<T> query = context.Set<T>();
                 includelist.ForEach(x => query = query.Include(x));
@@ -42,7 +42,7 @@ namespace TecSoftware.Infrastructure
 
         public IEnumerable<T> Filter(Expression<Func<T, bool>> predicate)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new CatalogoContext())
             {
                 return context.Set<T>().Where(predicate).ToList();
             }
@@ -61,7 +61,7 @@ namespace TecSoftware.Infrastructure
                 includelist.Add(body.Member.Name);
             }
 
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new CatalogoContext())
             {
                 IQueryable<T> query = context.Set<T>();
 
@@ -73,7 +73,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<T> Single(Expression<Func<T, bool>> predicate)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new CatalogoContext())
             {
                 return await context.Set<T>().FirstOrDefaultAsync(predicate);
             }
@@ -92,7 +92,7 @@ namespace TecSoftware.Infrastructure
                 includelist.Add(body.Member.Name);
             }
 
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new CatalogoContext())
             {
                 IQueryable<T> query = context.Set<T>();
                 includelist.ForEach(x => query = query.Include(x));
@@ -107,7 +107,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task<bool> Exist(Expression<Func<T, bool>> predicate)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new CatalogoContext())
             {
                 return await context.Set<T>().AnyAsync(predicate);
             }
@@ -115,7 +115,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task Create(T entity)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new CatalogoContext())
             {
                 context.Set<T>().Add(entity);
                 await context.SaveChangesAsync();
@@ -124,7 +124,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task Update(T entity)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new CatalogoContext())
             {
                 context.Entry(entity).State = EntityState.Modified;
                 await context.SaveChangesAsync();
@@ -133,7 +133,7 @@ namespace TecSoftware.Infrastructure
 
         public void Delete(T entity)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new CatalogoContext())
             {
                 context.Entry(entity).State = EntityState.Deleted;
                 context.SaveChanges();
@@ -142,7 +142,7 @@ namespace TecSoftware.Infrastructure
 
         public async Task Delete(Expression<Func<T, bool>> predicate)
         {
-            using (var context = new CatalogoInquilinoContext())
+            using (var context = new CatalogoContext())
             {
                 var entities = context.Set<T>().Where(predicate).ToList();
                 entities.ForEach(x => context.Entry(x).State = EntityState.Deleted);

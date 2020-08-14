@@ -11,7 +11,7 @@ namespace TecSoftware.EntidadesDominio
         public string Nombre { get; set; }
 
         public virtual ICollection<Cliente> Clientes { get; set; }
-        public virtual ICollection<Comprobante> Comprobantes { get; set; }
+        //public virtual ICollection<Comprobante> Comprobantes { get; set; }
         public virtual ICollection<ComprobantePago> ComprobantePagos { get; set; }
         public virtual ICollection<ComprobanteTipoIdentificacion> ComprobanteTipoIdentificaciones { get; set; }
     }

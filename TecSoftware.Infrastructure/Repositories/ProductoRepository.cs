@@ -13,74 +13,77 @@ namespace TecSoftware.Infrastructure
     {
         public async Task AsignarTarifaImpuestos(Producto producto, List<TasaImpuesto> tImpuestos)
         {
-            using (var context = new BusinessContext())
-            {
-                context.Entry(producto).State = EntityState.Unchanged;
+            //using (var context = new BusinessContext())
+            //{
+            //    context.Entry(producto).State = EntityState.Unchanged;
 
-                if (producto.TasaImpuestos == null)
-                    producto.TasaImpuestos = new List<TasaImpuesto>();
+            //    if (producto.TasaImpuestos == null)
+            //        producto.TasaImpuestos = new List<TasaImpuesto>();
 
-                await Task.Run(() =>
-                {
-                    //Recorremos cada Modelo que se quiera asociar
-                    tImpuestos.ForEach(x =>
-                    {
-                        //El Modelo tampoco debe recibir cambios
-                        context.Entry(x).State = EntityState.Unchanged;
-                        //Asociamos a la coleción de Modelo del Proveedor el nuevo item
-                        //Este si recibira cambios
-                        producto.TasaImpuestos.Add(x);
-                        context.SaveChanges();
-                    });
-                });
-            }
+            //    await Task.Run(() =>
+            //    {
+            //        //Recorremos cada Modelo que se quiera asociar
+            //        tImpuestos.ForEach(x =>
+            //        {
+            //            //El Modelo tampoco debe recibir cambios
+            //            context.Entry(x).State = EntityState.Unchanged;
+            //            //Asociamos a la coleción de Modelo del Proveedor el nuevo item
+            //            //Este si recibira cambios
+            //            producto.TasaImpuestos.Add(x);
+            //            context.SaveChanges();
+            //        });
+            //    });
+            //}
+            throw new NotImplementedException();
         }
 
         public async Task RemoveTarifaImpuestos(Producto producto, List<TasaImpuesto> tImpuestos)
         {
-            //validamos que haya algo que remover
-            if (tImpuestos == null || tImpuestos.Count == 0)
-                return;
+            ////validamos que haya algo que remover
+            //if (tImpuestos == null || tImpuestos.Count == 0)
+            //    return;
 
-            using (var context = new BusinessContext())
-            {
-                //recuperamos el terrotorio y sus empleados
-                //esto es necesario porque el objeto donde se debe remover tiene que estar dentro del contexto de EF
-                Producto productoSel = context.Set<Producto>().Include("TasaImpuestos")
-                    .FirstOrDefault(x => x.ProductoId == producto.ProductoId);
+            //using (var context = new BusinessContext())
+            //{
+            //    //recuperamos el terrotorio y sus empleados
+            //    //esto es necesario porque el objeto donde se debe remover tiene que estar dentro del contexto de EF
+            //    Producto productoSel = context.Set<Producto>().Include("TasaImpuestos")
+            //        .FirstOrDefault(x => x.ProductoId == producto.ProductoId);
 
-                //Proveedor proveedorSel = Context.Proveedores.Include(x => x.Modelos)
-                //     .FirstOrDefault(x => x.ProveedorId == proveedor.ProveedorId);
+            //    //Proveedor proveedorSel = Context.Proveedores.Include(x => x.Modelos)
+            //    //     .FirstOrDefault(x => x.ProveedorId == proveedor.ProveedorId);
 
-                if (producto.TasaImpuestos == null || producto.TasaImpuestos.Count == 0)
-                    return;
+            //    if (producto.TasaImpuestos == null || producto.TasaImpuestos.Count == 0)
+            //        return;
 
-                tImpuestos.ForEach(x =>
-                {
-                    //localizamos al modelo dentro de la coleccion que se recupero anteriormente
-                    if (productoSel != null)
-                    {
-                        TasaImpuesto modeloRemove =
-                            productoSel.TasaImpuestos.First(e => e.TasaImpuestoId == x.TasaImpuestoId);
-                        //se remueve de la coleccion haciendo uso de la instancia
-                        productoSel.TasaImpuestos.Remove(modeloRemove);
-                    }
-                });
+            //    tImpuestos.ForEach(x =>
+            //    {
+            //        //localizamos al modelo dentro de la coleccion que se recupero anteriormente
+            //        if (productoSel != null)
+            //        {
+            //            TasaImpuesto modeloRemove =
+            //                productoSel.TasaImpuestos.First(e => e.TasaImpuestoId == x.TasaImpuestoId);
+            //            //se remueve de la coleccion haciendo uso de la instancia
+            //            productoSel.TasaImpuestos.Remove(modeloRemove);
+            //        }
+            //    });
 
-                await context.SaveChangesAsync();
-            }
+            //    await context.SaveChangesAsync();
+            //}
+            throw new NotImplementedException();
         }
 
         public async Task<List<ICollection<TasaImpuesto>>> TasaImpuestosXProducto(int id)
         {
-            using (var context = new BusinessContext())
-            {
-                var list = await context.Productos
-                    .Include(c => c.TasaImpuestos)
-                    .Where(x => x.ProductoId == id)
-                    .Select(c => c.TasaImpuestos).ToListAsync();
-                return list;
-            }
+            //using (var context = new BusinessContext())
+            //{
+            //    var list = await context.Productos
+            //        .Include(c => c.TasaImpuestos)
+            //        .Where(x => x.ProductoId == id)
+            //        .Select(c => c.TasaImpuestos).ToListAsync();
+            //    return list;
+            //}
+            throw new NotImplementedException();
         }
 
         public void Registrar(Producto entity)
@@ -117,182 +120,189 @@ namespace TecSoftware.Infrastructure
 
         public async Task AsignarTallas(Producto producto, List<Talla> tallas)
         {
-            using (var context = new BusinessContext())
-            {
-                context.Entry(producto).State = EntityState.Unchanged;
+            //using (var context = new BusinessContext())
+            //{
+            //    context.Entry(producto).State = EntityState.Unchanged;
 
-                if (producto.Tallas == null)
-                    producto.Tallas = new List<Talla>();
+            //    if (producto.Tallas == null)
+            //        producto.Tallas = new List<Talla>();
 
-                await Task.Run(() =>
-                {
-                    //Recorremos cada Modelo que se quiera asociar
-                    tallas.ForEach(x =>
-                    {
-                        //El Modelo tampoco debe recibir cambios
-                        context.Entry(x).State = EntityState.Unchanged;
-                        //Asociamos a la coleción de Modelo del Proveedor el nuevo item
-                        //Este si recibira cambios
-                        producto.Tallas.Add(x);
-                        context.SaveChanges();
-                    });
-                });
-            }
+            //    await Task.Run(() =>
+            //    {
+            //        //Recorremos cada Modelo que se quiera asociar
+            //        tallas.ForEach(x =>
+            //        {
+            //            //El Modelo tampoco debe recibir cambios
+            //            context.Entry(x).State = EntityState.Unchanged;
+            //            //Asociamos a la coleción de Modelo del Proveedor el nuevo item
+            //            //Este si recibira cambios
+            //            producto.Tallas.Add(x);
+            //            context.SaveChanges();
+            //        });
+            //    });
+            //}
+            throw new NotImplementedException();
         }
 
         public async Task RemoveTallas(Producto producto, List<Talla> tallas)
         {
             //validamos que haya algo que remover
-            if (tallas == null || tallas.Count == 0)
-                return;
+            //if (tallas == null || tallas.Count == 0)
+            //    return;
 
-            using (var context = new BusinessContext())
-            {
-                //recuperamos el terrotorio y sus empleados
-                //esto es necesario porque el objeto donde se debe remover tiene que estar dentro del contexto de EF
-                Producto productoSel = await context.Set<Producto>().Include("Tallas")
-                    .FirstOrDefaultAsync(x => x.ProductoId == producto.ProductoId);
+            //using (var context = new BusinessContext())
+            //{
+            //    //recuperamos el terrotorio y sus empleados
+            //    //esto es necesario porque el objeto donde se debe remover tiene que estar dentro del contexto de EF
+            //    Producto productoSel = await context.Set<Producto>().Include("Tallas")
+            //        .FirstOrDefaultAsync(x => x.ProductoId == producto.ProductoId);
 
-                //Proveedor proveedorSel = Context.Proveedores.Include(x => x.Modelos)
-                //     .FirstOrDefault(x => x.ProveedorId == proveedor.ProveedorId);
+            //    //Proveedor proveedorSel = Context.Proveedores.Include(x => x.Modelos)
+            //    //     .FirstOrDefault(x => x.ProveedorId == proveedor.ProveedorId);
 
-                if (producto.Tallas == null || producto.Tallas.Count == 0)
-                    return;
+            //    if (producto.Tallas == null || producto.Tallas.Count == 0)
+            //        return;
 
-                tallas.ForEach(x =>
-                {
-                    //localizamos al modelo dentro de la coleccion que se recupero anteriormente
-                    if (productoSel != null)
-                    {
-                        Talla modeloRemove =
-                            productoSel.Tallas.First(e => e.TallaId == x.TallaId);
-                        //se remueve de la coleccion haciendo uso de la instancia
-                        productoSel.Tallas.Remove(modeloRemove);
-                    }
-                });
+            //    tallas.ForEach(x =>
+            //    {
+            //        //localizamos al modelo dentro de la coleccion que se recupero anteriormente
+            //        if (productoSel != null)
+            //        {
+            //            Talla modeloRemove =
+            //                productoSel.Tallas.First(e => e.TallaId == x.TallaId);
+            //            //se remueve de la coleccion haciendo uso de la instancia
+            //            productoSel.Tallas.Remove(modeloRemove);
+            //        }
+            //    });
 
-                await context.SaveChangesAsync();
-            }
+            //    await context.SaveChangesAsync();
+            //}
+            throw new NotImplementedException();
         }
 
         public async Task AsignarColores(Producto producto, List<Colour> colores)
         {
-            using (var context = new BusinessContext())
-            {
-                context.Entry(producto).State = EntityState.Unchanged;
+            //using (var context = new BusinessContext())
+            //{
+            //    context.Entry(producto).State = EntityState.Unchanged;
 
-                if (producto.Colores == null)
-                    producto.Colores = new List<Colour>();
+            //    if (producto.Colores == null)
+            //        producto.Colores = new List<Colour>();
 
-                await Task.Run(() =>
-                {
-                    //Recorremos cada Modelo que se quiera asociar
-                    colores.ForEach(x =>
-                    {
-                        //El Modelo tampoco debe recibir cambios
-                        context.Entry(x).State = EntityState.Unchanged;
-                        //Asociamos a la coleción de Modelo del Proveedor el nuevo item
-                        //Este si recibira cambios
-                        producto.Colores.Add(x);
-                        context.SaveChanges();
-                    });
-                });
-            }
+            //    await Task.Run(() =>
+            //    {
+            //        //Recorremos cada Modelo que se quiera asociar
+            //        colores.ForEach(x =>
+            //        {
+            //            //El Modelo tampoco debe recibir cambios
+            //            context.Entry(x).State = EntityState.Unchanged;
+            //            //Asociamos a la coleción de Modelo del Proveedor el nuevo item
+            //            //Este si recibira cambios
+            //            producto.Colores.Add(x);
+            //            context.SaveChanges();
+            //        });
+            //    });
+            //}
+            throw new NotImplementedException();
         }
 
         public async Task RemoveColores(Producto producto, List<Colour> colores)
         {
-            //validamos que haya algo que remover
-            if (colores == null || colores.Count == 0)
-                return;
+            ////validamos que haya algo que remover
+            //if (colores == null || colores.Count == 0)
+            //    return;
 
-            using (var context = new BusinessContext())
-            {
-                //recuperamos el terrotorio y sus empleados
-                //esto es necesario porque el objeto donde se debe remover tiene que estar dentro del contexto de EF
-                Producto productoSel = await context.Set<Producto>().Include("Colores")
-                    .FirstOrDefaultAsync(x => x.ProductoId == producto.ProductoId);
+            //using (var context = new BusinessContext())
+            //{
+            //    //recuperamos el terrotorio y sus empleados
+            //    //esto es necesario porque el objeto donde se debe remover tiene que estar dentro del contexto de EF
+            //    Producto productoSel = await context.Set<Producto>().Include("Colores")
+            //        .FirstOrDefaultAsync(x => x.ProductoId == producto.ProductoId);
 
-                //Proveedor proveedorSel = Context.Proveedores.Include(x => x.Modelos)
-                //     .FirstOrDefault(x => x.ProveedorId == proveedor.ProveedorId);
+            //    //Proveedor proveedorSel = Context.Proveedores.Include(x => x.Modelos)
+            //    //     .FirstOrDefault(x => x.ProveedorId == proveedor.ProveedorId);
 
-                if (producto.Colores == null || producto.Colores.Count == 0)
-                    return;
+            //    if (producto.Colores == null || producto.Colores.Count == 0)
+            //        return;
 
-                colores.ForEach(x =>
-                {
-                    //localizamos al modelo dentro de la coleccion que se recupero anteriormente
-                    if (productoSel != null)
-                    {
-                        Colour modeloRemove =
-                            productoSel.Colores.First(e => e.ColorId == x.ColorId);
-                        //se remueve de la coleccion haciendo uso de la instancia
-                        productoSel.Colores.Remove(modeloRemove);
-                    }
-                });
-                await context.SaveChangesAsync();
-            }
+            //    colores.ForEach(x =>
+            //    {
+            //        //localizamos al modelo dentro de la coleccion que se recupero anteriormente
+            //        if (productoSel != null)
+            //        {
+            //            Colour modeloRemove =
+            //                productoSel.Colores.First(e => e.ColorId == x.ColorId);
+            //            //se remueve de la coleccion haciendo uso de la instancia
+            //            productoSel.Colores.Remove(modeloRemove);
+            //        }
+            //    });
+            //    await context.SaveChangesAsync();
+            //}
+            throw new NotImplementedException();
         }
 
         //********************************* Proveedores ***************************************
 
         public async Task AsignarProveedores(Producto producto, List<Proveedor> proveedores)
         {
-            using (var context = new BusinessContext())
-            {
-                context.Entry(producto).State = EntityState.Unchanged;
+            //using (var context = new BusinessContext())
+            //{
+            //    context.Entry(producto).State = EntityState.Unchanged;
 
-                if (producto.Proveedores == null)
-                    producto.Proveedores = new List<Proveedor>();
+            //    if (producto.Proveedores == null)
+            //        producto.Proveedores = new List<Proveedor>();
 
-                await Task.Run(() =>
-                {
-                    //Recorremos cada Modelo que se quiera asociar
-                    proveedores.ForEach(x =>
-                    {
-                        //El Modelo tampoco debe recibir cambios
-                        context.Entry(x).State = EntityState.Unchanged;
-                        //Asociamos a la coleción de Modelo del Proveedor el nuevo item
-                        //Este si recibira cambios
-                        producto.Proveedores.Add(x);
-                        context.SaveChanges();
-                    });
-                });
+            //    await Task.Run(() =>
+            //    {
+            //        //Recorremos cada Modelo que se quiera asociar
+            //        proveedores.ForEach(x =>
+            //        {
+            //            //El Modelo tampoco debe recibir cambios
+            //            context.Entry(x).State = EntityState.Unchanged;
+            //            //Asociamos a la coleción de Modelo del Proveedor el nuevo item
+            //            //Este si recibira cambios
+            //            producto.Proveedores.Add(x);
+            //            context.SaveChanges();
+            //        });
+            //    });
 
-            }
+            //}
+            throw new NotImplementedException();
         }
 
         public async Task RemoveProveedores(Producto producto, List<Proveedor> proveedores)
         {
             //validamos que haya algo que remover
-            if (proveedores == null || proveedores.Count == 0)
-                return;
+            //if (proveedores == null || proveedores.Count == 0)
+            //    return;
 
-            using (var context = new BusinessContext())
+            //using (var context = new BusinessContext())
             {
                 //recuperamos el terrotorio y sus empleados
                 //esto es necesario porque el objeto donde se debe remover tiene que estar dentro del contexto de EF
-                Producto productoSel = await context.Set<Producto>().Include("Proveedores")
-                    .FirstOrDefaultAsync(x => x.ProductoId == producto.ProductoId);
+                //    Producto productoSel = await context.Set<Producto>().Include("Proveedores")
+                //        .FirstOrDefaultAsync(x => x.ProductoId == producto.ProductoId);
 
-                //Proveedor proveedorSel = Context.Proveedores.Include(x => x.Modelos)
-                //     .FirstOrDefault(x => x.ProveedorId == proveedor.ProveedorId);
+                //    //Proveedor proveedorSel = Context.Proveedores.Include(x => x.Modelos)
+                //    //     .FirstOrDefault(x => x.ProveedorId == proveedor.ProveedorId);
 
-                if (producto.Proveedores == null || producto.Proveedores.Count == 0)
-                    return;
+                //    if (producto.Proveedores == null || producto.Proveedores.Count == 0)
+                //        return;
 
-                proveedores.ForEach(x =>
-                {
-                    //localizamos al modelo dentro de la coleccion que se recupero anteriormente
-                    if (productoSel != null)
-                    {
-                        Proveedor modeloRemove =
-                            productoSel.Proveedores.First(e => e.ProveedorId == x.ProveedorId);
-                        //se remueve de la coleccion haciendo uso de la instancia
-                        productoSel.Proveedores.Remove(modeloRemove);
-                    }
-                });
-                await context.SaveChangesAsync();
+                //    proveedores.ForEach(x =>
+                //    {
+                //        //localizamos al modelo dentro de la coleccion que se recupero anteriormente
+                //        if (productoSel != null)
+                //        {
+                //            Proveedor modeloRemove =
+                //                productoSel.Proveedores.First(e => e.ProveedorId == x.ProveedorId);
+                //            //se remueve de la coleccion haciendo uso de la instancia
+                //            productoSel.Proveedores.Remove(modeloRemove);
+                //        }
+                //    });
+                //    await context.SaveChangesAsync();
+                //}
+                throw new NotImplementedException();
             }
         }
 

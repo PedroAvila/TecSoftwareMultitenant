@@ -1,13 +1,58 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using TecSoftware.EntidadesDominio;
 
 namespace TecSoftware.Infrastructure.Data.Business
 {
     public class BusinessContext : DbContext
     {
+        private List<Conexion> _detalleItemTemp;
+        private string _nameTenan = string.Empty;
+
+        private ITenantProvider _tenantProvider;
+
+        public BusinessContext()
+        {
+            //InicializarTenant();
+        }
+
+        private void InicializarTenant()
+        {
+            //_tenantProvider = tenantProvider;
+
+            _nameTenan = _tenantProvider.GetName().Result;
+            _detalleItemTemp = _tenantProvider.MostrarConexiones().Result.ToList();
+
+        }
+
+        public BusinessContext(DbContextOptions<BusinessContext> options, ITenantProvider tenantProvider,
+            IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
+            : base(options)
+        {
+            //_tenantProvider = tenantProvider;
+            //_nameTenan = _tenantProvider.GetName().Result;
+            //_detalleItemTemp = _tenantProvider.MostrarConexiones().Result.ToList();
+
+            var connectionString = configuration["ConnectionStrings:DefaultConnection"];
+            if (httpContextAccessor.HttpContext != null)
+            {
+                _nameTenan = httpContextAccessor.HttpContext.User.Claims
+                .Where(c => c.Type == ClaimsIdentity.DefaultNameClaimType).FirstOrDefault().Value;
+            }
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            //optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Business;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            //optionsBuilder.UseSqlServer(@"Server=tcp:catalog-dpt-minimainor.database.windows.net,1433;Database=Business;User ID=developer;Password=E962279!gh4df56j;Trusted_Connection=False;Encrypt=True;MultipleActiveResultSets=True;");
+
+            var ConnectionString = _detalleItemTemp.Where(x => x.Tenant == _nameTenan)
+                    .FirstOrDefault().DatabaseConnectionString;
+            optionsBuilder.UseSqlServer(ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -96,7 +141,110 @@ namespace TecSoftware.Infrastructure.Data.Business
                 .WithMany(f => f.RolFunciones)
                 .HasForeignKey(rf => rf.FuncionId);
 
+            //###### View
+            modelBuilder.Entity<SolicitudCotizacionExtend>(c =>
+            {
+                c.HasNoKey();
+                c.ToView("SolicitudCotizacionView");
+            });
+            modelBuilder.Entity<FacturaExtend>(c =>
+            {
+                c.HasNoKey();
+                c.ToView("ImprimirDocumentosView");
+            });
+            modelBuilder.Entity<OrdenCompraExtend>(c =>
+            {
+                c.HasNoKey();
+                c.ToView("OrdenCompraView");
+            });
+            modelBuilder.Entity<ProductoExtend>(c =>
+            {
+                c.HasNoKey();
+                c.ToView("ProductosMasMenosVendidosView");
+            });
+            modelBuilder.Entity<ProductoExtend>(c =>
+            {
+                c.HasNoKey();
+                c.ToView("ProductosMasMenosRentablesView");
+            });
+            modelBuilder.Entity<ProductoExtend>(c =>
+            {
+                c.HasNoKey();
+                c.ToView("ProductoSinMovimientoView");
+            });
+            modelBuilder.Entity<CierreCajaExtend>(c =>
+            {
+                c.HasNoKey();
+                c.ToView("ImprimirCierreCajaView");
+            });
+            modelBuilder.Entity<RecuentoDenominacionExtend>(c =>
+            {
+                c.HasNoKey();
+                c.ToView("TotalDenominacionView");
+            });
+
+
+            //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             modelBuilder.ApplyConfiguration(new EmpresaMap());
+            modelBuilder.ApplyConfiguration(new EstablecimientoMap());
+            modelBuilder.ApplyConfiguration(new PuntoEmisionMap());
+            modelBuilder.ApplyConfiguration(new TipoIdentificacionMap());
+            modelBuilder.ApplyConfiguration(new ClienteMap());
+            modelBuilder.ApplyConfiguration(new ComprobanteMap());
+            modelBuilder.ApplyConfiguration(new FormaPagoMap());
+            modelBuilder.ApplyConfiguration(new ComprobantePagoMap());
+            modelBuilder.ApplyConfiguration(new ImpuestoMap());
+            modelBuilder.ApplyConfiguration(new TasaImpuestoMap());
+            modelBuilder.ApplyConfiguration(new ProductoMap());
+            modelBuilder.ApplyConfiguration(new MonedaMap());
+            modelBuilder.ApplyConfiguration(new LaboratorioMap());
+            modelBuilder.ApplyConfiguration(new MarcaMap());
+            modelBuilder.ApplyConfiguration(new CategoriaMap());
+            modelBuilder.ApplyConfiguration(new SubCategoriaMap());
+            modelBuilder.ApplyConfiguration(new PresentacionMap());
+            modelBuilder.ApplyConfiguration(new ProveedorMap());
+            modelBuilder.ApplyConfiguration(new ColorMap());
+            modelBuilder.ApplyConfiguration(new TallaMap());
+            modelBuilder.ApplyConfiguration(new ListaPrecioMap());
+            modelBuilder.ApplyConfiguration(new DetalleComprobantePagoMap());
+            modelBuilder.ApplyConfiguration(new UsuarioMap());
+            modelBuilder.ApplyConfiguration(new OrdenVentaMap());
+            modelBuilder.ApplyConfiguration(new DetalleOrdenVentaMap());
+            modelBuilder.ApplyConfiguration(new ImpuestoVentaMap());
+            modelBuilder.ApplyConfiguration(new EstadoComprobanteElectronicoMap());
+            modelBuilder.ApplyConfiguration(new NumeradorOrdenVentaMap());
+            modelBuilder.ApplyConfiguration(new NumeradorComprobanteMap());
+            modelBuilder.ApplyConfiguration(new MovimientoCajaMap());
+            modelBuilder.ApplyConfiguration(new ProductoPrecioMap());
+            modelBuilder.ApplyConfiguration(new HistoricoProductoPrecioMap());
+            modelBuilder.ApplyConfiguration(new RolMap());
+            modelBuilder.ApplyConfiguration(new FuncionMap());
+            modelBuilder.ApplyConfiguration(new OperacionMap());
+            modelBuilder.ApplyConfiguration(new DenominacionMap());
+            modelBuilder.ApplyConfiguration(new RecuentoMap());
+            modelBuilder.ApplyConfiguration(new AlmacenMap());
+            modelBuilder.ApplyConfiguration(new ProductoAlmacenMap());
+            modelBuilder.ApplyConfiguration(new OrdenInventarioMap());
+            modelBuilder.ApplyConfiguration(new ProductoOrdenInventarioMap());
+            modelBuilder.ApplyConfiguration(new MedidaMap());
+            modelBuilder.ApplyConfiguration(new OrdenCompraMap());
+            modelBuilder.ApplyConfiguration(new ProductoOrdenCompraMap());
+            modelBuilder.ApplyConfiguration(new UbigeoMap());
+            modelBuilder.ApplyConfiguration(new OperacionMovimientoMap());
+            modelBuilder.ApplyConfiguration(new ProductoOperacionMovimientoMap());
+            modelBuilder.ApplyConfiguration(new RegistroInventarioMap());
+            modelBuilder.ApplyConfiguration(new ProductoRegistroInventarioMap());
+            modelBuilder.ApplyConfiguration(new MovimientoInventarioMap());
+            modelBuilder.ApplyConfiguration(new ConceptoInventarioMap());
+            modelBuilder.ApplyConfiguration(new RequerimientoCompraMap());
+            modelBuilder.ApplyConfiguration(new ProductoRequerimientoMap());
+            modelBuilder.ApplyConfiguration(new SolicitudCotizacionMap());
+            modelBuilder.ApplyConfiguration(new ProductoCotizacionMap());
+            modelBuilder.ApplyConfiguration(new CotizacionProveedorMap());
+            modelBuilder.ApplyConfiguration(new ProductoCotizacionProveedorMap());
+            modelBuilder.ApplyConfiguration(new CompraMap());
+            modelBuilder.ApplyConfiguration(new ProductoCompraMap());
+            modelBuilder.ApplyConfiguration(new AreaNegocioMap());
         }
 
         public DbSet<Empresa> Empresas { get; set; }

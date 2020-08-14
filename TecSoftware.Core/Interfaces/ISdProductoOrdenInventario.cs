@@ -15,6 +15,7 @@ namespace TecSoftware.Core
         Task<IEnumerable<UniversalExtend>> SelectList(Expression<Func<ProductoOrdenInventario, UniversalExtend>> source);
         Task<IEnumerable<ProductoOrdenInventarioExtend>> SelectProductoOrdenesInventario(CriteriaProductoOrdenInventario filter);
         Task<ProductoOrdenInventario> Single(Expression<Func<ProductoOrdenInventario, bool>> predicate);
-        Task<ProductoOrdenInventario> Single(Expression<Func<ProductoOrdenInventario, bool>> predicate, List<Expression<Func<ProductoOrdenInventario, object>>> includes);
+        //Task<ProductoOrdenInventario> Single(Expression<Func<ProductoOrdenInventario, bool>> predicate, List<Expression<Func<ProductoOrdenInventario, object>>> includes);
+        Task<ProductoOrdenInventarioExtend> SingleIncludes(Expression<Func<ProductoOrdenInventario, bool>> predicate);
     }
 }

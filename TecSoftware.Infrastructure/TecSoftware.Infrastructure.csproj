@@ -13,6 +13,16 @@
     <Compile Remove="Migrations\20200704193824_ModificandoEstadoDB.Designer.cs" />
     <Compile Remove="Migrations\20200704194328_ModificandoEstadoDB.cs" />
     <Compile Remove="Migrations\20200704194328_ModificandoEstadoDB.Designer.cs" />
+    <Compile Remove="Migrations\20200730161054_initCatalogo.cs" />
+    <Compile Remove="Migrations\20200730161054_initCatalogo.Designer.cs" />
+    <Compile Remove="Migrations\Business\20200730113149_init.cs" />
+    <Compile Remove="Migrations\Business\20200730113149_init.Designer.cs" />
+    <Compile Remove="Migrations\Business\20200730124310_init.cs" />
+    <Compile Remove="Migrations\Business\20200730124310_init.Designer.cs" />
+    <Compile Remove="Migrations\Business\20200730183727_initLaFabrica.cs" />
+    <Compile Remove="Migrations\Business\20200730183727_initLaFabrica.Designer.cs" />
+    <Compile Remove="Migrations\Business\20200730193045_initBusiness.cs" />
+    <Compile Remove="Migrations\Business\20200730193045_initBusiness.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

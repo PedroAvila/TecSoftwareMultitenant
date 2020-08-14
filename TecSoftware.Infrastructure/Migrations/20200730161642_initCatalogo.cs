@@ -1,11 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TecSoftware.Infrastructure.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class initCatalogo : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Inquilinos",
+                columns: table => new
+                {
+                    InquilinoId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(maxLength: 100, nullable: true),
+                    Dominio = table.Column<string>(maxLength: 500, nullable: true),
+                    PlanServicio = table.Column<string>(maxLength: 200, nullable: true),
+                    FechaCreacion = table.Column<DateTime>(nullable: false),
+                    FechaInicio = table.Column<DateTime>(nullable: false),
+                    FechaFin = table.Column<DateTime>(nullable: false),
+                    Estado = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Inquilinos", x => x.InquilinoId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Servidores",
                 columns: table => new
@@ -28,13 +48,20 @@ namespace TecSoftware.Infrastructure.Migrations
                     BaseDatoId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ServidorId = table.Column<int>(nullable: false),
-                    InquilinoId = table.Column<int>(nullable: false),
+                    BaseDatoOfInquilinoId = table.Column<int>(nullable: false),
                     Nombre = table.Column<string>(maxLength: 100, nullable: true),
-                    Estado = table.Column<string>(maxLength: 100, nullable: true)
+                    DatabaseConnectionString = table.Column<string>(maxLength: 300, nullable: true),
+                    Estado = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BaseDatos", x => x.BaseDatoId);
+                    table.ForeignKey(
+                        name: "FK_BaseDatos_Inquilinos_BaseDatoOfInquilinoId",
+                        column: x => x.BaseDatoOfInquilinoId,
+                        principalTable: "Inquilinos",
+                        principalColumn: "InquilinoId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_BaseDatos_Servidores_ServidorId",
                         column: x => x.ServidorId,
@@ -43,25 +70,11 @@ namespace TecSoftware.Infrastructure.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Inquilinos",
-                columns: table => new
-                {
-                    InquilinoId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(maxLength: 100, nullable: true),
-                    PlanServicio = table.Column<string>(maxLength: 200, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Inquilinos", x => x.InquilinoId);
-                    table.ForeignKey(
-                        name: "FK_Inquilinos_BaseDatos_InquilinoId",
-                        column: x => x.InquilinoId,
-                        principalTable: "BaseDatos",
-                        principalColumn: "BaseDatoId",
-                        onDelete: ReferentialAction.Restrict);
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_BaseDatos_BaseDatoOfInquilinoId",
+                table: "BaseDatos",
+                column: "BaseDatoOfInquilinoId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_BaseDatos_ServidorId",
@@ -72,10 +85,10 @@ namespace TecSoftware.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Inquilinos");
+                name: "BaseDatos");
 
             migrationBuilder.DropTable(
-                name: "BaseDatos");
+                name: "Inquilinos");
 
             migrationBuilder.DropTable(
                 name: "Servidores");

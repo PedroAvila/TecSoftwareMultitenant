@@ -32,16 +32,11 @@ namespace TecSoftware.EntidadesDominio
         public virtual Presentacion Presentacion { get; set; }
         public virtual Laboratorio Laboratorio { get; set; }
 
-        public virtual ICollection<TasaImpuesto> TasaImpuestos { get; set; }
-        public virtual ICollection<Colour> Colores { get; set; }
-        public virtual ICollection<Talla> Tallas { get; set; }
         public virtual ICollection<ProductoPrecio> ProductoPrecios { get; set; }
-        public virtual ICollection<Proveedor> Proveedores { get; set; }
-
         public virtual ICollection<ProductoTasaImpuesto> ProductoTasaImpuestos { get; set; }
         public virtual ICollection<ProductoColor> ProductoColores { get; set; }
         public virtual ICollection<ProductoTalla> ProductoTallas { get; set; }
         public virtual ICollection<ProductoProveedor> ProductoProveedores { get; set; }
-        public object PrecioBase { get; set; }
+        public decimal PrecioBase { get; set; }
     }
 }

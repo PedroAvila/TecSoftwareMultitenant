@@ -13,12 +13,13 @@ namespace TecSoftware.Core
         private readonly DetalleComprobantePagoRepository _detalleComprobantePagoRepository = new DetalleComprobantePagoRepository();
         private readonly ProductoRepository _productoRepository = new ProductoRepository();
 
+        //CORREGIR DESPUES DE CREAR LA DB
         public async Task Agregar(DetalleComprobantePagoExtend entity)
         {
             var producto = await _productoRepository.Single(x => x.ProductoId == entity.ProductoId,
             new List<Expression<Func<Producto, object>>>() {
                 x=>x.Medida,
-                x => x.TasaImpuestos,
+                //x => x.TasaImpuestos,
                 x => x.ProductoPrecios
             });
 
