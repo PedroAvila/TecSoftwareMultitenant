@@ -22,8 +22,6 @@ namespace TecSoftware.Infrastructure.Data.Business
 
         }
 
-
-
         public BusinessContext(DbContextOptions<BusinessContext> options,
             IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
             : base(options)
@@ -46,13 +44,6 @@ namespace TecSoftware.Infrastructure.Data.Business
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Business;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            //optionsBuilder.UseSqlServer(@"Server=tcp:catalog-dpt-minimainor.database.windows.net,1433;Database=Business;User ID=developer;Password=E962279!gh4df56j;Trusted_Connection=False;Encrypt=True;MultipleActiveResultSets=True;");
-
-            //var ConnectionString = _detalleItemTemp.Where(x => x.Tenant == _nameTenan)
-            //        .FirstOrDefault().DatabaseConnectionString;
-            //optionsBuilder.UseSqlServer(ConnectionString);
-
             _nameTenan = DBContextExtensions.CurrentHttpContext.User.Claims
                 .Where(c => c.Type == ClaimsIdentity.DefaultNameClaimType).FirstOrDefault().Value;
 
