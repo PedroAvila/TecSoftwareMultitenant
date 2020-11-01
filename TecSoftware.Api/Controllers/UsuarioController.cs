@@ -18,11 +18,11 @@ namespace TecSoftware.Api.Controllers
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
         //private readonly ITenantProvider _tenantProvider;
-        public UsuarioController(ISdUsuario sdUsuario, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public UsuarioController(ISdUsuario sdUsuario, IMapper mapper)
         {
             _sdUsuario = sdUsuario;
             _mapper = mapper;
-            _httpContextAccessor = httpContextAccessor;
+            //_httpContextAccessor = httpContextAccessor;
             //_tenantProvider = tenantProvider;
 
             //var name = _tenantProvider.GetName();

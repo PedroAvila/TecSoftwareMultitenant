@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TecSoftware.EntidadesDominio;
 
@@ -31,9 +32,9 @@ namespace TecSoftware.Infrastructure
         {
             //_nameTenant = await Task.Run(()=> accessor.HttpContext.User.Claims
             //    .Where(c => c.Type == ClaimsIdentity.DefaultNameClaimType).FirstOrDefault().Value);
-            var apiKey = await Task.Run(() => context.Request.Headers["User"].FirstOrDefault());
+            var apiKey = await Task.Run(() => context.User.FindFirst(ClaimTypes.Name)?.Value);
 
-            _nameTenant = "LaFabrica";
+            _nameTenant = apiKey;
             await _next.Invoke(context);
         }
 

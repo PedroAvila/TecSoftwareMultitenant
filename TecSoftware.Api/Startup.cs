@@ -39,14 +39,19 @@ namespace TecSoftware.Api
 
 
 
-            var connectionString = Configuration.GetConnectionString("CatalogoInquilino");
-            services.AddDbContext<CatalogoContext>(options =>
-            {
-                options.UseSqlServer(connectionString);
-            });
+            //var connectionString = Configuration.GetConnectionString("CatalogoInquilino");
+            //services.AddDbContext<CatalogoContext>(options =>
+            //{
+            //    options.UseSqlServer(connectionString);
+            //});
 
+            var connection = Configuration["ConnectionStrings"];
+            services.AddEntityFrameworkSqlServer();
+            services.AddDbContext<CatalogoContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<BusinessContext>(options => options.UseSqlServer(connection));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddDbContext<BusinessContext>(ServiceLifetime.Scoped);
+
+            //services.AddDbContext<BusinessContext>(ServiceLifetime.Scoped);
             //services.AddScoped<ITenantProvider, WebTenantProvider>();
 
 
@@ -84,6 +89,8 @@ namespace TecSoftware.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -96,8 +103,8 @@ namespace TecSoftware.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseWebTenantProvider();
-
+            //app.UseWebTenantProvider();
+            DBContextExtensions.Configure(app.ApplicationServices.GetRequiredService<IHttpContextAccessor>());
 
             app.UseEndpoints(endpoints =>
             {

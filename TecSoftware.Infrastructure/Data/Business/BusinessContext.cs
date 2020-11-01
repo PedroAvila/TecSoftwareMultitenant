@@ -12,24 +12,19 @@ namespace TecSoftware.Infrastructure.Data.Business
     {
         private List<Conexion> _detalleItemTemp;
         private string _nameTenan = string.Empty;
+        private IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        private ITenantProvider _tenantProvider;
+        //private ITenantProvider _tenantProvider;
 
         public BusinessContext()
         {
-            //InicializarTenant();
-        }
-
-        private void InicializarTenant()
-        {
-            //_tenantProvider = tenantProvider;
-
-            _nameTenan = _tenantProvider.GetName().Result;
-            _detalleItemTemp = _tenantProvider.MostrarConexiones().Result.ToList();
 
         }
 
-        public BusinessContext(DbContextOptions<BusinessContext> options, ITenantProvider tenantProvider,
+
+
+        public BusinessContext(DbContextOptions<BusinessContext> options,
             IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
             : base(options)
         {
@@ -37,10 +32,14 @@ namespace TecSoftware.Infrastructure.Data.Business
             //_nameTenan = _tenantProvider.GetName().Result;
             //_detalleItemTemp = _tenantProvider.MostrarConexiones().Result.ToList();
 
-            var connectionString = configuration["ConnectionStrings:DefaultConnection"];
+            //var connectionString = configuration["ConnectionStrings:DefaultConnection"];
+            _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
+
+
             if (httpContextAccessor.HttpContext != null)
             {
-                _nameTenan = httpContextAccessor.HttpContext.User.Claims
+                _nameTenan = _httpContextAccessor.HttpContext.User.Claims
                 .Where(c => c.Type == ClaimsIdentity.DefaultNameClaimType).FirstOrDefault().Value;
             }
         }
@@ -50,9 +49,19 @@ namespace TecSoftware.Infrastructure.Data.Business
             //optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Business;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             //optionsBuilder.UseSqlServer(@"Server=tcp:catalog-dpt-minimainor.database.windows.net,1433;Database=Business;User ID=developer;Password=E962279!gh4df56j;Trusted_Connection=False;Encrypt=True;MultipleActiveResultSets=True;");
 
-            var ConnectionString = _detalleItemTemp.Where(x => x.Tenant == _nameTenan)
-                    .FirstOrDefault().DatabaseConnectionString;
-            optionsBuilder.UseSqlServer(ConnectionString);
+            //var ConnectionString = _detalleItemTemp.Where(x => x.Tenant == _nameTenan)
+            //        .FirstOrDefault().DatabaseConnectionString;
+            //optionsBuilder.UseSqlServer(ConnectionString);
+
+            _nameTenan = DBContextExtensions.CurrentHttpContext.User.Claims
+                .Where(c => c.Type == ClaimsIdentity.DefaultNameClaimType).FirstOrDefault().Value;
+
+            //Asignar cadena de conexión
+            var builder = new ConfigurationBuilder();
+            builder.AddJsonFile("appsettings.json", optional: false);
+            _configuration = builder.Build();
+            string connectionString = _configuration.GetConnectionString(_nameTenan).ToString();
+            optionsBuilder.UseSqlServer(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
